@@ -36,35 +36,35 @@
 package main
 
 import (
-	"context"
-	"fmt"
+	"log"
 
-	"github.com/oze4/godaddygo"
+	"github.com/alyx/go-daddy/daddy"
 )
 
 func main() {
-	key := "gHVbRVFtAFXW_TmcsFgxJQBvLjE5LD4d77m"
-	secret := "Cmm6sqEBA4vVbUD8DSejQy"
+	// OTE env
+	// oteApiKey := "3mM44UcgzrkBAX_LDn59wMWcKiDphbVdakhdjaljsd"
+	// oteApiSecret := "dx2sLKnreubBDBdsakjhda"
+	// oteApiUrl := "https://api.ote-godaddy.com"
 
-	// Target production GoDaddy API
-	// 99% of the time this is what you are looking for
-	api, err := godaddygo.NewProduction(key, secret)
+	// PROD Environment
+	prodApiKey := "gHVbRVFtAFXW_TmcsFgxJQBvLjEkfdjhak"
+	prodSecretKey := "Cmm6sqEBA4vVbUD8Ddsakh"
+	// prodApiUrl := "https://api.godaddy.com"
+
+	client, err := daddy.NewClient(prodApiKey, prodSecretKey, false)
 	if err != nil {
 		panic(err.Error())
 	}
 
-	// Target version 1 of the production API
-	godaddy := api.V1()
-
-	//
-	// See `Extended Example` section below for more
-	//
-	output, err := godaddy.ListDomains(context.Background())
-	fmt.Println("Output ----", output)
+	myDomains, err := client.Domains.List(nil, nil, 2, "", nil, "")
 	if err != nil {
-		panic(err.Error())
+		log.Fatal(err)
 	}
 
-// Output ---- [{2023-04-24 05:07:28 +0000 UTC bootcloudlab.in 394663659 false 2024-04-24 05:07:28 +0000 UTC false false true [] false false true ACTIVE 2023-06-23 05:07:28 +0000 UTC false}]
+	for _, value := range myDomains {
+		log.Println(value.Domain)
+	}
+	// Output ---- [{2023-04-24 05:07:28 +0000 UTC bootcloudlab.in 394663659 false 2024-04-24 05:07:28 +0000 UTC false false true [] false false true ACTIVE 2023-06-23 05:07:28 +0000 UTC false}]
 
 }
