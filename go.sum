@@ -1,0 +1,5 @@
+github.com/alyx/go-daddy v0.0.0-20210411104009-ee858659ed7b h1:XnkirH+j5yJoFFGqZzZKmWmaVXBe6rFX+IdZctw7WcY=
+github.com/alyx/go-daddy v0.0.0-20210411104009-ee858659ed7b/go.mod h1:JEEXFFpdZOowtBJN6+kUCQ+okHa4UfZtMBfWVRf71EM=
+github.com/joho/godotenv v1.4.0/go.mod h1:f4LDr5Voq0i2e/R5DDNOoa2zzDfwtkZa6DnEwAbqwq4=
+github.com/oze4/godaddygo v1.3.30 h1:0sygRK2AOapWe6uhK/hQ6oxJU1hO9SOMy842HWcmBBA=
+github.com/oze4/godaddygo v1.3.30/go.mod h1:oDe8ozraT5dutgGNmmuCcafKEiQ5wM9KVBpX35Yxt/s=
