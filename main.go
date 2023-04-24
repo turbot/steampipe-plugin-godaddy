@@ -36,35 +36,38 @@
 package main
 
 import (
-	"log"
-
-	"github.com/alyx/go-daddy/daddy"
+	"github.com/turbot/steampipe-plugin-godaddy/godaddy"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 )
 
 func main() {
-	// OTE env
-	// oteApiKey := "3mM44UcgzrkBAX_LDn59wMWcKiDphbVdakhdjaljsd"
-	// oteApiSecret := "dx2sLKnreubBDBdsakjhda"
-	// oteApiUrl := "https://api.ote-godaddy.com"
 
-	// PROD Environment
-	prodApiKey := "gHVbRVFtAFXW_TmcsFgxJQBvLjEkfdjhak"
-	prodSecretKey := "Cmm6sqEBA4vVbUD8Ddsakh"
-	// prodApiUrl := "https://api.godaddy.com"
+	plugin.Serve(&plugin.ServeOpts{
+		PluginFunc: godaddy.Plugin})
 
-	client, err := daddy.NewClient(prodApiKey, prodSecretKey, false)
-	if err != nil {
-		panic(err.Error())
-	}
+	// // OTE env
+	// // oteApiKey := "3mM44UcgzrkBAX_LDn59wMWcKiDphbVdakhdjaljsd"
+	// // oteApiSecret := "dx2sLKnreubBDBdsakjhda"
+	// // oteApiUrl := "https://api.ote-godaddy.com"
 
-	myDomains, err := client.Domains.List(nil, nil, 2, "", nil, "")
-	if err != nil {
-		log.Fatal(err)
-	}
+	// // PROD Environment
+	// prodApiKey := "gHVbRVFtAFXW_TmcsFgxJQBvLjEkfdjhak"
+	// prodSecretKey := "Cmm6sqEBA4vVbUD8Ddsakh"
+	// // prodApiUrl := "https://api.godaddy.com"
 
-	for _, value := range myDomains {
-		log.Println(value.Domain)
-	}
+	// client, err := daddy.NewClient(prodApiKey, prodSecretKey, false)
+	// if err != nil {
+	// 	panic(err.Error())
+	// }
+
+	// myDomains, err := client.Domains.List(nil, nil, 2, "", nil, "")
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
+
+	// for _, value := range myDomains {
+	// 	log.Println(value.Domain)
+	// }
 	// Output ---- [{2023-04-24 05:07:28 +0000 UTC bootcloudlab.in 394663659 false 2024-04-24 05:07:28 +0000 UTC false false true [] false false true ACTIVE 2023-06-23 05:07:28 +0000 UTC false}]
 
 }
