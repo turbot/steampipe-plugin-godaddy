@@ -45,9 +45,9 @@ func GetConfig(connection *plugin.Connection) godaddyConfig {
 func getClient(ctx context.Context, d *plugin.QueryData) (*daddy.Client, error) {
 	godaddyConfig := GetConfig(d.Connection)
 
+	envType := os.Getenv("GODADDY_ENVIRONMENT_TYPE")
 	apiKey := os.Getenv("GODADDY_API_KEY")
 	secretKey := os.Getenv("GODADDY_SECRET_KEY")
-	envType := os.Getenv("ENVIRONMENT_TYPE")
 
 	if godaddyConfig.API_KEY != nil {
 		apiKey = *godaddyConfig.API_KEY
