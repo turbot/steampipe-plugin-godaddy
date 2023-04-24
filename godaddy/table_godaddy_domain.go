@@ -58,6 +58,11 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_STRING,
 			},
 			{
+				Name:        "auth_code",
+				Description: "",
+				Type:        proto.ColumnType_STRING,
+			},
+			{
 				Name:        "expiration_protected",
 				Description: "",
 				Type:        proto.ColumnType_BOOL,
@@ -101,6 +106,16 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 				Name:        "transfer_protected",
 				Description: "",
 				Type:        proto.ColumnType_BOOL,
+			},
+			{
+				Name:        "domain_contacts",
+				Description: "",
+				Type:        proto.ColumnType_JSON,
+			},
+			{
+				Name:        "name_servers",
+				Description: "",
+				Type:        proto.ColumnType_JSON,
 			},
 		},
 	}
