@@ -159,7 +159,7 @@ func listDomains(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData
 		}
 	}
 
-	result, err := client.Domains.List(nil, nil, maxLimit, "", nil, "")
+	result, err := client.Domains.List(nil, nil, maxLimit, "", []string{"authCode", "contacts", "nameServers"}, "")
 	if err != nil {
 		plugin.Logger(ctx).Error("godaddy_domain.listDomains", "api_error", err)
 		return nil, err
