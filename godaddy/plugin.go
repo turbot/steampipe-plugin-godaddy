@@ -42,10 +42,10 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 		},
 
 		TableMap: map[string]*plugin.Table{
-			"godaddy_domain": tableGodaddyDomain(ctx),
+			"godaddy_domain":     tableGodaddyDomain(ctx),
+			"godaddy_dns_record": tableGodaddyDNSRecord(ctx),
 		},
 	}
 
-	plugin.Logger(ctx).Error("Error ===>>>", "HERRE")
 	return p
 }

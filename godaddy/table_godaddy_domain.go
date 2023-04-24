@@ -3,6 +3,7 @@ package godaddy
 import (
 	"context"
 
+	"github.com/alyx/go-daddy/daddy"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -14,17 +15,22 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "godaddy_domain",
 		Description: "Godaddy Domain",
-		// Get: &plugin.GetConfig{
-		// 	KeyColumns: plugin.SingleColumn("app_id"),
-		// 	// IgnoreConfig: &plugin.IgnoreConfig{
-		// 	// 	ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationException", "NotFoundException"}),
-		// 	// },
-		// 	Hydrate: getDomain,
-		// },
+		Get: &plugin.GetConfig{
+			KeyColumns: plugin.SingleColumn("domain"),
+			// IgnoreConfig: &plugin.IgnoreConfig{
+			// 	ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationException", "NotFoundException"}),
+			// },
+			Hydrate: getDomain,
+		},
 		List: &plugin.ListConfig{
 			Hydrate: listDomains,
+			KeyColumns: plugin.KeyColumnSlice{
+				{
+					Name:    "status",
+					Require: plugin.Optional,
+				},
+			},
 		},
-		// GetMatrixItemFunc: SupportedRegionMatrix(amplifyv1.EndpointsID),
 		Columns: []*plugin.Column{
 			{
 				Name:        "domain",
@@ -40,22 +46,25 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 			{
 				Name:        "created_at",
 				Description: "The date and time when the domain was created as found in the response to a WHOIS query.",
-				Type:        proto.ColumnType_STRING,
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "deleted_at",
 				Description: "Date and time when this domain was deleted.",
-				Type:        proto.ColumnType_STRING,
+				Type:        proto.ColumnType_TIMESTAMP,
+				Transform:   transform.FromField("DeletedAt").Transform(transform.NullIfZeroValue),
 			},
 			{
 				Name:        "transfer_away_eligibile_at",
 				Description: "Date and time when this domain is eligible to transfer.",
-				Type:        proto.ColumnType_STRING,
+				Type:        proto.ColumnType_TIMESTAMP,
+				Transform:   transform.FromField("TransferAwayEligibileAt").Transform(transform.NullIfZeroValue),
 			},
 			{
 				Name:        "expires",
 				Description: "The date when the registration for the domain is set to expire. The date and time is in Unix time format and Coordinated Universal time (UTC)",
-				Type:        proto.ColumnType_STRING,
+				Type:        proto.ColumnType_TIMESTAMP,
+				Transform:   transform.FromField("Expires").Transform(transform.NullIfZeroValue),
 			},
 			{
 				Name:        "auth_code",
@@ -83,6 +92,13 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_BOOL,
 			},
 			{
+				Name:        "subaccount_id",
+				Description: "The sub account ID of the domain.",
+				Type:        proto.ColumnType_STRING,
+				Hydrate:     getDomain,
+				Transform:   transform.FromField("SubaccountID"),
+			},
+			{
 				Name:        "renew_auto",
 				Description: "Specifies whether the domain is configured to automatically renew.",
 				Type:        proto.ColumnType_BOOL,
@@ -90,7 +106,8 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 			{
 				Name:        "renew_deadline",
 				Description: "Date the domain must renew on.",
-				Type:        proto.ColumnType_STRING,
+				Type:        proto.ColumnType_TIMESTAMP,
+				Transform:   transform.FromField("RenewDeadline").Transform(transform.NullIfZeroValue),
 			},
 			{
 				Name:        "renewable",
@@ -133,8 +150,14 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 			},
 			{
 				Name:        "name_servers",
-				Description: "",
+				Description: "Fully-qualified domain names for DNS servers.",
 				Type:        proto.ColumnType_JSON,
+			},
+			{
+				Name:        "verifications",
+				Description: "Fully-qualified domain names for DNS servers.",
+				Type:        proto.ColumnType_JSON,
+				Hydrate:     getDomain,
 			},
 		},
 	}
@@ -159,14 +182,18 @@ func listDomains(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData
 		}
 	}
 
-	result, err := client.Domains.List(nil, nil, maxLimit, "", []string{"authCode", "contacts", "nameServers"}, "")
+	status := d.EqualsQualString("status")
+
+	result, err := client.Domains.List([]string{status}, nil, maxLimit, "", []string{"authCode", "contacts", "nameServers"}, "")
 	if err != nil {
 		plugin.Logger(ctx).Error("godaddy_domain.listDomains", "api_error", err)
 		return nil, err
 	}
 
 	for _, item := range result {
-		d.StreamListItem(ctx, item)
+		d.StreamListItem(ctx, &daddy.DomainDetail{
+			DomainSummary: item,
+		})
 
 		// Context may get cancelled due to manual cancellation or if the limit has been reached
 		if d.RowsRemaining(ctx) == 0 {
@@ -175,4 +202,34 @@ func listDomains(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData
 	}
 
 	return nil, nil
+}
+
+//// HYDRATED FUNCTION
+
+func getDomain(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	var domain string
+	if h.Item != nil {
+		domain = h.Item.(*daddy.DomainDetail).Domain
+	} else {
+		domain = d.EqualsQualString("domain")
+	}
+
+	if domain == "" {
+		return nil, nil
+	}
+
+	// Create Client
+	client, err := getClient(ctx, d)
+	if err != nil {
+		plugin.Logger(ctx).Error("godaddy_domain.getDomain", "client_error", err)
+		return nil, err
+	}
+
+	result, err := client.Domains.Get(domain)
+	if err != nil {
+		plugin.Logger(ctx).Error("godaddy_domain.getDomain", "api_error", err)
+		return nil, err
+	}
+
+	return result, nil
 }
