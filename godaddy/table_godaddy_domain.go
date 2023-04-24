@@ -113,6 +113,30 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 			},
 			{
+				Name:        "domain_contacts_admin",
+				Description: "",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("DomainContacts.Admin"),
+			},
+			{
+				Name:        "domain_contacts_billing",
+				Description: "",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("DomainContacts.Billing"),
+			},
+			{
+				Name:        "domain_contacts_registrant",
+				Description: "",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("DomainContacts.Registrant"),
+			},
+			{
+				Name:        "domain_contacts_tech",
+				Description: "",
+				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("DomainContacts.Tech"),
+			},
+			{
 				Name:        "name_servers",
 				Description: "",
 				Type:        proto.ColumnType_JSON,
