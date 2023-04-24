@@ -108,11 +108,6 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_BOOL,
 			},
 			{
-				Name:        "domain_contacts",
-				Description: "",
-				Type:        proto.ColumnType_JSON,
-			},
-			{
 				Name:        "domain_contacts_admin",
 				Description: "",
 				Type:        proto.ColumnType_JSON,
