@@ -17,9 +17,9 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 		Description: "Godaddy Domain",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("domain"),
-			// IgnoreConfig: &plugin.IgnoreConfig{
-			// 	ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationException", "NotFoundException"}),
-			// },
+			IgnoreConfig: &plugin.IgnoreConfig{
+				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"not found"}),
+			},
 			Hydrate: getDomain,
 		},
 		List: &plugin.ListConfig{

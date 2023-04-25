@@ -106,7 +106,7 @@ type DNSRecordInfo struct {
 
 func listDNSRecords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 
-	domain := h.Item.(daddy.DomainSummary)
+	domain := h.Item.(*daddy.DomainDetail)
 
 	// Create Client
 	client, err := getClient(ctx, d)
