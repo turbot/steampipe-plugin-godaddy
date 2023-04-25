@@ -50,11 +50,13 @@ func tableGodaddySubscription(_ context.Context) *plugin.Table {
 				Name:        "launch_url",
 				Description: "The url to use or manage this subscription's active product.",
 				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("LaunchURL"),
 			},
 			{
 				Name:        "payment_profile_id",
 				Description: "The unique identifier of the payment profile that will be used to automatically renew this subscription.",
 				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("PaymentProfileID"),
 			},
 			{
 				Name:        "price_locked",
