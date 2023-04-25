@@ -45,6 +45,7 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 			"godaddy_domain":     tableGodaddyDomain(ctx),
 			"godaddy_dns_record": tableGodaddyDNSRecord(ctx),
 			"godaddy_order":      tableGodaddyOrder(ctx),
+			"godaddy_subscription": tableGodaddySubscription(ctx),
 		},
 	}
 
