@@ -15,28 +15,37 @@ func tableGodaddyOrder(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "godaddy_order",
 		Description: "Godaddy Order",
-		// Get: &plugin.GetConfig{
-		// KeyColumns: plugin.SingleColumn("domain"),
-		// IgnoreConfig: &plugin.IgnoreConfig{
-		// 	ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"ValidationException", "NotFoundException"}),
-		// },
-		// 	Hydrate: getDomain,
-		// },
+		Get: &plugin.GetConfig{
+			KeyColumns: plugin.SingleColumn("order_id"),
+			IgnoreConfig: &plugin.IgnoreConfig{
+				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"not found"}),
+			},
+			Hydrate: getOrder,
+		},
 		List: &plugin.ListConfig{
 			Hydrate:       listOrders,
 			ParentHydrate: listDomains,
-			// KeyColumns: plugin.KeyColumnSlice{
-			// 	{
-			// 		Name:    "status",
-			// 		Require: plugin.Optional,
-			// 	},
-			// },
+			KeyColumns: plugin.KeyColumnSlice{
+				{
+					Name:    "domain_name",
+					Require: plugin.Optional,
+				},
+				{
+					Name:    "parent_order_id",
+					Require: plugin.Optional,
+				},
+			},
 		},
 		Columns: []*plugin.Column{
-
+			{
+				Name:        "order_id",
+				Description: "The unique identifier of the order.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("OrderID"),
+			},
 			{
 				Name:        "bill_to_tax_id",
-				Description: "data!! .",
+				Description: "The billing tax id that was used at the time of purchase.",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("BillTo.TaxID"),
 			},
@@ -52,17 +61,17 @@ func tableGodaddyOrder(_ context.Context) *plugin.Table {
 			},
 			{
 				Name:        "domain_name",
-				Description: "data!! .",
+				Description: "The name of the domain for the order.",
 				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "parent_order_id",
-				Description: "data!! .",
+				Description: "Unique identifier of the parent order. All refund/chargeback orders are tied to the original order. The orginal order's orderId is the parentOrderId of refund/chargeback orders.",
 				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "bill_to_contact",
-				Description: "data!! .",
+				Description: "The billing contact information that was used at the time of purchase.",
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("BillTo.Contact"),
 			},
@@ -91,6 +100,7 @@ type OrderInfo struct {
 	CreatedAt     string
 	Currency      string
 	Items         []daddy.LineItem
+	OrderID       string
 	ParentOrderID string
 	Payments      []daddy.OrderPayment
 	Pricing       daddy.OrderPricing
@@ -100,6 +110,15 @@ type OrderInfo struct {
 
 func listOrders(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	domain := h.Item.(*daddy.DomainDetail)
+
+	// Reduce the number of API call, if the domain name has specified in the where clause.
+	domainName := d.EqualsQualString("domain_name")
+	if domainName != "" && domainName != domain.Domain {
+		return nil, nil
+	}
+
+	parentOrderId := d.EqualsQualString("parent_order_id")
+
 	// Create Client
 	client, err := getClient(ctx, d)
 	if err != nil {
@@ -116,10 +135,7 @@ func listOrders(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 		}
 	}
 
-	//staus := d.EqualsQualString("status")
-	plugin.Logger(ctx).Error("before the api call")
-	// result, err := client.Subscriptions.List([]string{""}, []string{""}, 0, maxLimit, "")
-	result, err := client.Orders.List("", "", domain.Domain, 0, 0, "", 0, 0, "")
+	result, err := client.Orders.List("", "", domain.Domain, 0, 0, parentOrderId, 0, maxLimit, "")
 	if err != nil {
 		plugin.Logger(ctx).Error("godaddy_order.listOrders", "api_error", err)
 		return nil, err
@@ -132,6 +148,7 @@ func listOrders(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 			Currency:      item.Currency,
 			DomainName:    domain.Domain,
 			Items:         item.Items,
+			OrderID:       item.OrderID,
 			ParentOrderID: item.ParentOrderID,
 			Payments:      item.Payments,
 			Pricing:       item.Pricing,
@@ -148,30 +165,30 @@ func listOrders(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 
 //// HYDRATED FUNCTION
 
-// func getDomain(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-// 	var domain string
-// 	if h.Item != nil {
-// 		domain = h.Item.(*daddy.DomainDetail).Domain
-// 	} else {
-// 		domain = d.EqualsQualString("domain")
-// 	}
+func getOrder(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	var orderId string
+	if h.Item != nil {
+		orderId = h.Item.(*OrderInfo).OrderID
+	} else {
+		orderId = d.EqualsQualString("order_id")
+	}
 
-// 	if domain == "" {
-// 		return nil, nil
-// 	}
+	if orderId == "" {
+		return nil, nil
+	}
 
-// 	// Create Client
-// 	client, err := getClient(ctx, d)
-// 	if err != nil {
-// 		plugin.Logger(ctx).Error("godaddy_domain.getDomain", "client_error", err)
-// 		return nil, err
-// 	}
+	// Create Client
+	client, err := getClient(ctx, d)
+	if err != nil {
+		plugin.Logger(ctx).Error("godaddy_domain.getOrder", "client_error", err)
+		return nil, err
+	}
 
-// 	result, err := client.Domains.Get(domain)
-// 	if err != nil {
-// 		plugin.Logger(ctx).Error("godaddy_domain.getDomain", "api_error", err)
-// 		return nil, err
-// 	}
+	result, err := client.Orders.Get(orderId)
+	if err != nil {
+		plugin.Logger(ctx).Error("godaddy_domain.getOrder", "api_error", err)
+		return nil, err
+	}
 
-// 	return result, nil
-// }
+	return result, nil
+}

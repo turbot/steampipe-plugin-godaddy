@@ -1,5 +1,7 @@
 module github.com/turbot/steampipe-plugin-godaddy
 
+replace github.com/turbot/go-daddy => /Users/parthas/turbot-godaddy
+
 go 1.19
 
 require github.com/turbot/go-daddy v0.0.2
