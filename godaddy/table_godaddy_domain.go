@@ -3,7 +3,7 @@ package godaddy
 import (
 	"context"
 
-	"github.com/alyx/go-daddy/daddy"
+	"github.com/turbot/go-daddy/daddy"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"

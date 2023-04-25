@@ -5,7 +5,7 @@ import (
 	"errors"
 	"os"
 
-	"github.com/alyx/go-daddy/daddy"
+	"github.com/turbot/go-daddy/daddy"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/schema"
 )
