@@ -83,7 +83,7 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 			},
 			{
 				Name:        "locked",
-				Description: "Specifies whether the domain is locked to prevent transfers.",
+				Description: "Indicates whether a domain is locked from unauthorized transfer to another party.",
 				Type:        proto.ColumnType_BOOL,
 			},
 			{
@@ -100,18 +100,18 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 			},
 			{
 				Name:        "renew_auto",
-				Description: "Specifies whether the domain is configured to automatically renew.",
+				Description: "Indicates whether the domain is automatically renewed upon expiration.",
 				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "renew_deadline",
-				Description: "Date the domain must renew on.",
+				Description: "Specifies whether renew deadline is set on the domain.",
 				Type:        proto.ColumnType_TIMESTAMP,
 				Transform:   transform.FromField("RenewDeadline").Transform(transform.NullIfZeroValue),
 			},
 			{
 				Name:        "renewable",
-				Description: "Specifies whether the domain is eligble for renewal based on status.",
+				Description: "Specifies whether the domain is eligible for renewal based on status.",
 				Type:        proto.ColumnType_BOOL,
 			},
 			{
@@ -138,18 +138,18 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 			},
 			{
 				Name:        "domain_contacts_registrant",
-				Description: "",
+				Description: "Provides details about the domain registrant.",
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("DomainContacts.Registrant"),
 			},
 			{
 				Name:        "domain_contacts_tech",
-				Description: "",
+				Description: "Provides details about the domain technical contact.",
 				Type:        proto.ColumnType_JSON,
 				Transform:   transform.FromField("DomainContacts.Tech"),
 			},
 			{
-				Name:        "name_servers",
+				Name:        "nameservers",
 				Description: "Fully-qualified domain names for DNS servers.",
 				Type:        proto.ColumnType_JSON,
 			},
