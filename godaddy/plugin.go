@@ -19,34 +19,18 @@ func Plugin(ctx context.Context) *plugin.Plugin {
 	p := &plugin.Plugin{
 		Name:             pluginName,
 		DefaultTransform: transform.FromCamel(),
-
-		// TODO //
-		// DefaultGetConfig: &plugin.GetConfig{
-		// 	IgnoreConfig: &plugin.IgnoreConfig{
-		// 		ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{
-		// 			"NotFoundException",
-		// 		}),
-		// 	},
-		// },
-
-		// TODO //
-		// Default ignore config for the plugin
-		// DefaultIgnoreConfig: &plugin.IgnoreConfig{
-		// 	ShouldIgnoreErrorFunc: shouldIgnoreErrorPluginDefault(),
-		// },
-
-		// TODO //
 		ConnectionConfigSchema: &plugin.ConnectionConfigSchema{
 			NewInstance: ConfigInstance,
 			Schema:      ConfigSchema,
 		},
 
 		TableMap: map[string]*plugin.Table{
-			"godaddy_domain":       tableGodaddyDomain(ctx),
-			"godaddy_dns_record":   tableGodaddyDNSRecord(ctx),
-			"godaddy_order":        tableGodaddyOrder(ctx),
-			"godaddy_subscription": tableGodaddySubscription(ctx),
 			"godaddy_certificate":  tableGodaddyCertificate(ctx),
+			"godaddy_dns_record":   tableGodaddyDNSRecord(ctx),
+			"godaddy_domain":       tableGodaddyDomain(ctx),
+			"godaddy_order":        tableGodaddyOrder(ctx),
+			"godaddy_shopper":      tableGodaddyShopper(ctx),
+			"godaddy_subscription": tableGodaddySubscription(ctx),
 		},
 	}
 

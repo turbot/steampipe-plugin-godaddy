@@ -116,8 +116,6 @@ func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 
 func listCertificates(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 
-	//productGroupKey := d.EqualsQualString("product_group_key")
-
 	// Create Client
 	client, err := getClient(ctx, d)
 	if err != nil {
@@ -127,9 +125,14 @@ func listCertificates(ctx context.Context, d *plugin.QueryData, h *plugin.Hydrat
 
 	certId := d.EqualsQualString("certificate_id")
 
-	result, err := client.Certificates.Get(certId)
+	// Empty check
+	if certId == "" {
+		return nil, nil
+	}
+
+	result, _ := client.Certificates.Get(certId)
 	if err != nil {
-		plugin.Logger(ctx).Error("godaddy_certificate.listCertificates", "api_error", err)
+		plugin.Logger(ctx).Error("godaddy_certificate.listCertificates", "api_error", err.Error())
 		return nil, err
 	}
 

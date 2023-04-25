@@ -115,7 +115,8 @@ func listDNSRecords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateD
 		return nil, err
 	}
 
-	// Reduce the basic request limit down if the user has only requested a small number of rows
+	// Reduce the basic request limit down if the user has only requested a small number of rows.
+	// The API throws error (Page size may not exceed 500 records) if we are providing the max limit value grater than 500.
 	maxLimit := 500
 	if d.QueryContext.Limit != nil {
 		limit := int32(*d.QueryContext.Limit)

@@ -15,6 +15,13 @@ func tableGodaddySubscription(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "godaddy_subscription",
 		Description: "Godaddy Subscription",
+		Get: &plugin.GetConfig{
+			KeyColumns: plugin.SingleColumn("subscription_id"),
+			IgnoreConfig: &plugin.IgnoreConfig{
+				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"not found"}),
+			},
+			Hydrate: getSubscription,
+		},
 		List: &plugin.ListConfig{
 			Hydrate: listSubscriptions,
 			KeyColumns: plugin.KeyColumnSlice{
@@ -144,7 +151,9 @@ func listSubscriptions(ctx context.Context, d *plugin.QueryData, h *plugin.Hydra
 	}
 
 	// Reduce the basic request limit down if the user has only requested a small number of rows
-	maxLimit := 500
+	// As per the testing we have added it as 1000, the API has been tested with the max limit value grater than 1000.
+	// The default value for the max limit is 25, doc: https://developer.godaddy.com/doc/endpoint/subscriptions#/v1/list.
+	maxLimit := 1000
 	if d.QueryContext.Limit != nil {
 		limit := int32(*d.QueryContext.Limit)
 		if limit < int32(maxLimit) {
@@ -152,7 +161,9 @@ func listSubscriptions(ctx context.Context, d *plugin.QueryData, h *plugin.Hydra
 		}
 	}
 
-	result, err := client.Subscriptions.List([]string{productGroupKey}, []string{}, 0, maxLimit, "")
+	offset := 0
+
+	result, err := client.Subscriptions.List([]string{productGroupKey}, []string{}, offset, maxLimit, "")
 	if err != nil {
 		plugin.Logger(ctx).Error("godaddy_subscription.listSubscriptions", "api_error", err)
 		return nil, err
@@ -165,6 +176,25 @@ func listSubscriptions(ctx context.Context, d *plugin.QueryData, h *plugin.Hydra
 		if d.RowsRemaining(ctx) == 0 {
 			return nil, nil
 		}
+	}
+
+	for result.Pagination.Next != "" {
+		offset += maxLimit
+		res, err := client.Subscriptions.List([]string{productGroupKey}, []string{}, offset, maxLimit, "")
+		if err != nil {
+			plugin.Logger(ctx).Error("godaddy_subscription.listSubscriptions", "api_pagging_error", err)
+			return res, err
+		}
+
+		for _, item := range res.Subscriptions {
+			d.StreamListItem(ctx, item)
+
+			// Context may get cancelled due to manual cancellation or if the limit has been reached
+			if d.RowsRemaining(ctx) == 0 {
+				return nil, nil
+			}
+		}
+		result.Pagination = res.Pagination
 	}
 
 	return nil, nil
@@ -180,6 +210,7 @@ func getSubscription(ctx context.Context, d *plugin.QueryData, h *plugin.Hydrate
 		subscription = d.EqualsQualString("subscription_id")
 	}
 
+	// Empty Check
 	if subscription == "" {
 		return nil, nil
 	}

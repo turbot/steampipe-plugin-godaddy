@@ -174,7 +174,8 @@ func listDomains(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData
 	}
 
 	// Reduce the basic request limit down if the user has only requested a small number of rows
-	maxLimit := 50
+	// As per the testing we have added the max limit value as 1000, the API has been tested with the max limit value grater than 1000 but the API don't throw any error.
+	maxLimit := 1000
 	if d.QueryContext.Limit != nil {
 		limit := int32(*d.QueryContext.Limit)
 		if limit < int32(maxLimit) {

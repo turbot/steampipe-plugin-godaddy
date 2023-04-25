@@ -127,6 +127,7 @@ func listOrders(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 	}
 
 	// Reduce the basic request limit down if the user has only requested a small number of rows
+	// As per the testing we have added the max limit value as 1000, the API has been tested with the max limit value grater than 1000 but the API don't throw any error.
 	maxLimit := 1000
 	if d.QueryContext.Limit != nil {
 		limit := int32(*d.QueryContext.Limit)
@@ -135,7 +136,9 @@ func listOrders(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 		}
 	}
 
-	result, err := client.Orders.List("", "", domain.Domain, 0, 0, parentOrderId, 0, maxLimit, "")
+	offset := 0
+
+	result, err := client.Orders.List("", "", domain.Domain, 0, 0, parentOrderId, offset, maxLimit, "")
 	if err != nil {
 		plugin.Logger(ctx).Error("godaddy_order.listOrders", "api_error", err)
 		return nil, err
@@ -158,6 +161,35 @@ func listOrders(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 		if d.RowsRemaining(ctx) == 0 {
 			return nil, nil
 		}
+	}
+
+	for result.Pagination.Next != "" {
+		offset += maxLimit
+		res, err := client.Orders.List("", "", domain.Domain, 0, 0, parentOrderId, offset, maxLimit, "")
+		if err != nil {
+			plugin.Logger(ctx).Error("godaddy_subscription.listSubscriptions", "api_pagging_error", err)
+			return res, err
+		}
+
+		for _, item := range res.Orders {
+			d.StreamListItem(ctx, &OrderInfo{
+				BillTo:        item.BillTo,
+				CreatedAt:     item.CreatedAt,
+				Currency:      item.Currency,
+				DomainName:    domain.Domain,
+				Items:         item.Items,
+				OrderID:       item.OrderID,
+				ParentOrderID: item.ParentOrderID,
+				Payments:      item.Payments,
+				Pricing:       item.Pricing,
+			})
+
+			// Context may get cancelled due to manual cancellation or if the limit has been reached
+			if d.RowsRemaining(ctx) == 0 {
+				return nil, nil
+			}
+		}
+		result.Pagination = res.Pagination
 	}
 
 	return nil, nil
