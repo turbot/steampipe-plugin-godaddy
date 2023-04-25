@@ -56,7 +56,7 @@ func tableGodaddyDNSRecord(_ context.Context) *plugin.Table {
 			},
 			{
 				Name:        "port",
-				Description: "",
+				Description: "The port for the dns record.",
 				Type:        proto.ColumnType_INT,
 			},
 			{
@@ -168,52 +168,6 @@ func listDNSRecords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateD
 		if d.RowsRemaining(ctx) == 0 {
 			return nil, nil
 		}
-	}
-
-	return nil, nil
-}
-
-//// HYDRATE FUNCTION
-
-func getDNSRecord(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
-
-	// Create Client
-	client, err := getClient(ctx, d)
-	if err != nil {
-		plugin.Logger(ctx).Error("godaddy_dns_record.listDNSRecords", "client_error", err)
-		return nil, err
-	}
-
-	// Reduce the API calls for a given domain name in where clause.
-	domainName := d.EqualsQualString("domain_name")
-	name := d.EqualsQualString("name")
-	recordType := d.EqualsQualString("type")
-
-	// Empty check
-	if domainName == "" || name == "" {
-		return nil, nil
-	}
-
-	result, err := client.Domains.GetRecords(domainName, recordType, name, 0, 2)
-	if err != nil {
-		plugin.Logger(ctx).Error("godaddy_dns_record.listDNSRecords", "api_error", err)
-		return nil, err
-	}
-
-	if len(result) > 0 {
-		return &DNSRecordInfo{
-			DomainName: domainName,
-			Data:       result[0].Data,
-			Name:       result[0].Name,
-			Port:       result[0].Port,
-			Priority:   result[0].Priority,
-			Protocol:   result[0].Protocol,
-			Service:    result[0].Service,
-			TTL:        result[0].TTL,
-			Type:       result[0].Type,
-			Weight:     result[0].Weight,
-		}, nil
-
 	}
 
 	return nil, nil
