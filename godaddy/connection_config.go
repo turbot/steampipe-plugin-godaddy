@@ -59,18 +59,17 @@ func getClient(ctx context.Context, d *plugin.QueryData) (*daddy.Client, error) 
 		envType = *godaddyConfig.EVIRONMENT_TYPE
 	}
 
-	// Set the default environment type to developement
-	if envType == "" {
-		envType = "DEV"
+	if apiKey == "" || secretKey == "" || envType == "" {
+		return nil, errors.New("'api_key', 'secret_key' and 'environment_type' must be set in the connection configuration. Edit your connection configuration file and then restart Steampipe.")
 	}
 
-	// Based on the environment type we need to pass the
+	// Based on the environment type we need to pass the endpoint URL
 	switch envType {
 	case "DEV":
 		return daddy.NewClient(apiKey, secretKey, true)
 	case "PROD":
 		return daddy.NewClient(apiKey, secretKey, false)
+	default:
+		return nil, errors.New("'environment_type' must be set in the connection configuration to 'DEV' or 'PROD'. Edit your connection configuration file and then restart Steampipe.")
 	}
-
-	return nil, errors.New("'api_key' and 'secret_key' must be set in the connection configuration. Edit your connection configuration file and then restart Steampipe.")
 }
