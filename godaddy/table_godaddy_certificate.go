@@ -92,7 +92,7 @@ func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 			{
 				Name:        "valid_end",
 				Description: "The end date of the certificate's validity (if issued or revoked).",
-				Type:        proto.ColumnType_STRING,
+				Type:        proto.ColumnType_TIMESTAMP,
 				Transform:   transform.FromField("ValidEnd").Transform(transform.NullIfZeroValue),
 			},
 			{
