@@ -383,6 +383,8 @@ github.com/turbot/go-daddy v0.0.0-20210411104009-ee858659ed7b h1:XnkirH+j5yJoFFG
 github.com/turbot/go-daddy v0.0.0-20210411104009-ee858659ed7b/go.mod h1:JEEXFFpdZOowtBJN6+kUCQ+okHa4UfZtMBfWVRf71EM=
 github.com/turbot/go-daddy v0.0.2 h1:jz/AGG6qInCG2GTiNh11F6567DjVNImd5Qvvmke2JXg=
 github.com/turbot/go-daddy v0.0.2/go.mod h1:0WTg+6LZR7vXPbagaxAUeaAdGLW/v6eFcCh49IORmIU=
+github.com/turbot/go-daddy v0.0.3 h1:QXKPDVdu7pFcWIABfzyUrWZCZVhRmbQFa7OuX1vmLQM=
+github.com/turbot/go-daddy v0.0.3/go.mod h1:0WTg+6LZR7vXPbagaxAUeaAdGLW/v6eFcCh49IORmIU=
 github.com/turbot/go-kit v0.5.0 h1:bulbpYGyOQWt4/qFAULPBdrLis//sf3VFz5mTZelv0k=
 github.com/turbot/go-kit v0.5.0/go.mod h1:oP9gLk6bETL4nkEuujZZbOlcv9jnHQlf7DYcI/+Ke8Q=
 github.com/turbot/steampipe-plugin-sdk/v5 v5.3.0 h1:md2iWhVXJQ6zWvyyNWmE5p6pp7tZkVtVl8RxWLFf/dM=

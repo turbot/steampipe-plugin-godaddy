@@ -6,6 +6,6 @@ connection "godaddy" {
   # The secret key for the GoDaddy account.
   # secret_key = "DjfrsqEBA4vVjhdsieDShdjs"
 
-  # The type of the environment, based on the value the endpoint will be change. Possible values are: DEV | PROD. The default value is DEV
+  # The type of the environment, based on the value the endpoint will be change. Possible values are: DEV | PROD.
   # environment_type = "DEV"
 }
