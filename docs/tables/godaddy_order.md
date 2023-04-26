@@ -116,7 +116,7 @@ select
   (
     pricing ->> 'Total'
   )
-  ::numeric AS total_paid
+  ::numeric as total_paid
 from
   godaddy_order
 order by
@@ -128,7 +128,7 @@ order by
 ```sql
 select
   domain_name,
-  COUNT(*) AS num_orders
+  COUNT(*) as num_orders
 from
   godaddy_order
 group by
