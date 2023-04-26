@@ -76,15 +76,15 @@ from
 select
   order_id,
   domain_name,
-  pricing -> 'Discount' as discount,
+  pricing ->> 'Discount' as discount,
   pricing -> 'Fees' as fees,
-  pricing -> 'ID' as pricing_id,
-  pricing -> 'List' as pricing_list,
-  pricing -> 'Savings' as savings,
-  pricing -> 'Subtotal' as subtotal,
-  pricing -> 'Taxes' as taxes,
+  pricing ->> 'ID' as pricing_id,
+  pricing ->> 'List' as pricing_list,
+  pricing ->> 'Savings' as savings,
+  pricing ->> 'Subtotal' as subtotal,
+  pricing ->> 'Taxes' as taxes,
   pricing -> 'TaxDetails' as tax_details,
-  pricing -> 'Total' as total
+  pricing ->> 'Total' as total
 from
   godaddy_order
 where
@@ -116,7 +116,7 @@ select
   (
     pricing ->> 'Total'
   )
-  ::numeric AS total_paid
+  ::numeric as total_paid
 from
   godaddy_order
 order by
@@ -128,7 +128,7 @@ order by
 ```sql
 select
   domain_name,
-  COUNT(*) AS num_orders
+  COUNT(*) as num_orders
 from
   godaddy_order
 group by

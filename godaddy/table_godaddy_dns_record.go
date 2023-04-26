@@ -51,7 +51,7 @@ func tableGodaddyDNSRecord(_ context.Context) *plugin.Table {
 			},
 			{
 				Name:        "data",
-				Description: "",
+				Description: "Refers to the value of the DNS record being added or updated. The value of this field will depend on the type of DNS record being added or updated.",
 				Type:        proto.ColumnType_STRING,
 			},
 			{
@@ -66,7 +66,7 @@ func tableGodaddyDNSRecord(_ context.Context) *plugin.Table {
 			},
 			{
 				Name:        "protocol",
-				Description: "",
+				Description: "The protocol being used for a particular type of DNS record.",
 				Type:        proto.ColumnType_INT,
 			},
 			{
