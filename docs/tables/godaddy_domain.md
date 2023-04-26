@@ -106,7 +106,7 @@ where
   expires > '2023-12-31';
 ```
 
-### List domains that are created in last 30 days
+### List domains that are created in the last 30 days
 
 ```sql
 select
