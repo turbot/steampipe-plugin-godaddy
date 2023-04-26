@@ -81,7 +81,7 @@ where
 ```sql
 select
   domain,
-  doamin_id,
+  domain_id,
   created_at,
   transfer_away_eligibile_at,
   renew_auto
