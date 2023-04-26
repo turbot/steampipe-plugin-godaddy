@@ -29,24 +29,24 @@ func tableGodaddyShopper(_ context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			{
 				Name:        "shopper_id",
-				Description: "The unique ID of the shopper.",
+				Description: "The unique identifier of the shopper.",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("ShopperID"),
 			},
 			{
 				Name:        "customer_id",
-				Description: "Identifier for the Customer record associated with this Shopper record. This is an alternate identifier that some systems use to identify an individual shopper record.",
+				Description: "Unique identifier for the customer record associated with this shopper record. This is an alternate identifier that some systems use to identify an individual shopper record.",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("CustomerID"),
 			},
 			{
 				Name:        "email",
-				Description: "The mail id of the customer.",
+				Description: "The email address of the customer.",
 				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "external_id",
-				Description: "The external ID of the shopper.",
+				Description: "Unique identifier for a shopper provided by the calling application.",
 				Type:        proto.ColumnType_INT,
 				Transform:   transform.FromField("ExternalID"),
 			},
@@ -58,7 +58,7 @@ func tableGodaddyShopper(_ context.Context) *plugin.Table {
 			},
 			{
 				Name:        "name_first",
-				Description: "The first name of the customer.",
+				Description: "The first name of the shopper.",
 				Type:        proto.ColumnType_STRING,
 			},
 			{
