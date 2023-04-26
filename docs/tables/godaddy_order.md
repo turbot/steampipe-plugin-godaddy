@@ -27,7 +27,7 @@ group by
   order_id;
 ```
 
-### Count number of orders created per month
+### Count the number of orders created per month
 
 ```sql
 select
@@ -108,7 +108,7 @@ where
   o.domain_name = d.domain;
 ```
 
-### List top 5 orders with the highest total amount paid
+### List the top 5 orders with the highest total amount paid
 
 ```sql
 select
