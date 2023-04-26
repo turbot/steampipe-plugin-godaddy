@@ -152,6 +152,7 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 				Name:        "nameservers",
 				Description: "Fully-qualified domain names for DNS servers.",
 				Type:        proto.ColumnType_JSON,
+				Transform:   transform.FromField("NameServers"),
 			},
 			{
 				Name:        "verifications",
