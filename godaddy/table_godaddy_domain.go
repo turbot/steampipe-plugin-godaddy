@@ -44,6 +44,11 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("DomainID"),
 			},
 			{
+				Name:        "auth_code",
+				Description: "Authorization code for transferring the Domain.",
+				Type:        proto.ColumnType_STRING,
+			},
+			{
 				Name:        "created_at",
 				Description: "The date and time when the domain was created as found in the response to a WHOIS query.",
 				Type:        proto.ColumnType_TIMESTAMP,
@@ -65,11 +70,6 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 				Description: "The date when the registration for the domain is set to expire. The date and time is in Unix time format and Coordinated Universal time (UTC)",
 				Type:        proto.ColumnType_TIMESTAMP,
 				Transform:   transform.FromField("Expires").Transform(transform.NullIfZeroValue),
-			},
-			{
-				Name:        "auth_code",
-				Description: "Authorization code for transferring the Domain.",
-				Type:        proto.ColumnType_STRING,
 			},
 			{
 				Name:        "expiration_protected",
@@ -159,6 +159,14 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 				Description: "Fully-qualified domain names for DNS servers.",
 				Type:        proto.ColumnType_JSON,
 				Hydrate:     getDomain,
+			},
+
+			// GoDaddy standard columns
+			{
+				Name:        "title",
+				Description: "Title of the resource.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Domain"),
 			},
 		},
 	}

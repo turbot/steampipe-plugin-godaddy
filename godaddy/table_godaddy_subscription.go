@@ -68,12 +68,12 @@ func tableGodaddySubscription(_ context.Context) *plugin.Table {
 			{
 				Name:        "price_locked",
 				Description: "Whether the renewal price will be based from the list price or a locked-in price for this shopper.",
-				Type:        proto.ColumnType_STRING,
+				Type:        proto.ColumnType_BOOL,
 			},
 			{
 				Name:        "expires_at",
 				Description: "The date when the registration for the domain is set to expire. The date and time is in Unix time format and Coordinated Universal time (UTC).",
-				Type:        proto.ColumnType_STRING,
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "renew_auto",
@@ -132,6 +132,14 @@ func tableGodaddySubscription(_ context.Context) *plugin.Table {
 				Name:        "relations",
 				Description: "The relationship between the subscriptions that will be canceled automatically, when current subscription is canceled.",
 				Type:        proto.ColumnType_JSON,
+			},
+
+			// GoDaddy standard columns
+			{
+				Name:        "title",
+				Description: "Title of the resource.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("SubscriptionID"),
 			},
 		},
 	}
