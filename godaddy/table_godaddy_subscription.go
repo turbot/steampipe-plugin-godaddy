@@ -34,13 +34,13 @@ func tableGodaddySubscription(_ context.Context) *plugin.Table {
 		Columns: []*plugin.Column{
 			{
 				Name:        "subscription_id",
-				Description: "Unique identifier of the Subscription.",
+				Description: "Unique identifier of the subscription.",
 				Type:        proto.ColumnType_STRING,
 				Transform:   transform.FromField("SubscriptionID"),
 			},
 			{
 				Name:        "created_at",
-				Description: "The date and time when the Subscription was created.",
+				Description: "The date and time when the subscription was created.",
 				Type:        proto.ColumnType_STRING,
 			},
 			{
@@ -72,7 +72,7 @@ func tableGodaddySubscription(_ context.Context) *plugin.Table {
 			},
 			{
 				Name:        "expires_at",
-				Description: "The date when the registration for the domain is set to expire. The date and time is in Unix time format and Coordinated Universal time (UTC).",
+				Description: "The date when the registration for the domain is set to expire. The date and time is in Unix time format and coordinated universal time (UTC).",
 				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
@@ -120,7 +120,7 @@ func tableGodaddySubscription(_ context.Context) *plugin.Table {
 			},
 			{
 				Name:        "billing",
-				Description: "The billing detail of the subscription.",
+				Description: "The billing details of the subscription.",
 				Type:        proto.ColumnType_JSON,
 			},
 			{
