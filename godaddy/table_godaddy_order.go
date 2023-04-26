@@ -76,17 +76,12 @@ func tableGodaddyOrder(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("BillTo.Contact"),
 			},
 			{
-				Name:        "bill_item",
+				Name:        "items",
 				Description: "The sets of two or more line items in the order.",
 				Type:        proto.ColumnType_JSON,
 			},
 			{
-				Name:        "bill_payment",
-				Description: "The payment associated with the order.",
-				Type:        proto.ColumnType_JSON,
-			},
-			{
-				Name:        "bill_pricing",
+				Name:        "pricing",
 				Description: "The pricing associated with the order.",
 				Type:        proto.ColumnType_JSON,
 			},
@@ -175,7 +170,7 @@ func listOrders(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 		offset += maxLimit
 		res, err := client.Orders.List("", "", domain.Domain, 0, 0, parentOrderId, offset, maxLimit, "")
 		if err != nil {
-			plugin.Logger(ctx).Error("godaddy_subscription.listSubscriptions", "api_pagging_error", err)
+			plugin.Logger(ctx).Error("godaddy_order.listOrders", "api_pagging_error", err)
 			return res, err
 		}
 
