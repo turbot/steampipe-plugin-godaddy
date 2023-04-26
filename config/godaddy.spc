@@ -1,5 +1,7 @@
 connection "godaddy" {
   plugin = "godaddy"
+  
+  # For setting API keys see instructions at https://developer.godaddy.com/keys
   # The API key for the GoDaddy account.
   # api_key = "hkw647irnrhttXW_TmcsFgxJQBvLjE5Lda8402"
 
