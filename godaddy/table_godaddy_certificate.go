@@ -5,6 +5,7 @@ import (
 
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
 )
 
 //// TABLE DEFINITION
@@ -36,7 +37,7 @@ func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 			{
 				Name:        "created_at",
 				Description: "The date the certificate was ordered.",
-				Type:        proto.ColumnType_STRING,
+				Type:        proto.ColumnType_TIMESTAMP,
 			},
 			{
 				Name:        "denied_reason",
@@ -92,11 +93,13 @@ func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 				Name:        "valid_end",
 				Description: "The end date of the certificate's validity (if issued or revoked).",
 				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("ValidEnd").Transform(transform.NullIfZeroValue),
 			},
 			{
 				Name:        "valid_start",
 				Description: "The start date of the certificate's validity (if issued or revoked).",
-				Type:        proto.ColumnType_STRING,
+				Type:        proto.ColumnType_TIMESTAMP,
+				Transform:   transform.FromField("ValidStart").Transform(transform.NullIfZeroValue),
 			},
 			{
 				Name:        "organization",

@@ -90,6 +90,14 @@ func tableGodaddyOrder(_ context.Context) *plugin.Table {
 				Description: "The pricing associated with the order.",
 				Type:        proto.ColumnType_JSON,
 			},
+
+			// GoDaddy standard columns
+			{
+				Name:        "title",
+				Description: "Title of the resource.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("OrderID"),
+			},
 		},
 	}
 }
