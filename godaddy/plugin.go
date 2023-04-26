@@ -1,5 +1,5 @@
 /*
-Package aws implements a steampipe plugin for godaddy.
+Package godaddy implements a steampipe plugin for godaddy.
 This plugin provides data that Steampipe uses to present foreign
 tables that represent GoDaddy resource.
 */
@@ -14,7 +14,7 @@ import (
 
 const pluginName = "steampipe-plugin-godaddy"
 
-// Plugin creates this (aws) plugin
+// Plugin creates this (godaddy) plugin
 func Plugin(ctx context.Context) *plugin.Plugin {
 	p := &plugin.Plugin{
 		Name:             pluginName,
