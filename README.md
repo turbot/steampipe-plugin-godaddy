@@ -32,7 +32,7 @@ connection "godaddy" {
   # The secret key for the GoDaddy account.
   # secret_key = "DjfrsqEBA4vVjsdsdsdieDShdjs"
 
-  # The type of the environment, based on the value the endpoint will be change. Possible values are: DEV | PROD. The default value is `DEV`
+  # The type of the environment, based on the value the endpoint will be change. Possible values are: DEV | PROD.
   # environment_type = "DEV"
 }
 ```
@@ -40,6 +40,7 @@ connection "godaddy" {
 Or through environment variables:
 
 ```sh
+export GODADDY_ENVIRONMENT_TYPE="DEV"
 export GODADDY_API_KEY="hkw64xxxxabchttXW_TmcsFgxJQBvLjE5Lda8402"
 export GODADDY_SECRET_KEY="DjfrsqEBA4vVjsdsdsdieDShdjs"
 ```
