@@ -70,6 +70,16 @@ func tableGodaddyShopper(_ context.Context) *plugin.Table {
 	}
 }
 
+type ShopperInfo struct {
+	CustomerID string
+	ShopperID  string
+	Email      string
+	ExternalID int
+	MarketID   string
+	NameFirst  string
+	NameLast   string
+}
+
 //// LIST FUNCTION
 
 func getShopper(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
@@ -88,7 +98,17 @@ func getShopper(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 		return nil, err
 	}
 
-	d.StreamListItem(ctx, result)
+	if result != nil {
+		d.StreamListItem(ctx, &ShopperInfo{
+			CustomerID: result.ShopperID.CustomerID,
+			ShopperID:  result.ShopperID.ShopperID,
+			Email:      result.ShopperUpdate.Email,
+			ExternalID: result.ShopperUpdate.ExternalID,
+			MarketID:   result.ShopperUpdate.MarketID,
+			NameFirst:  result.ShopperUpdate.NameFirst,
+			NameLast:   result.ShopperUpdate.NameLast,
+		})
+	}
 
 	return nil, nil
 }
