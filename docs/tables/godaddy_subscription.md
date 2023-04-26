@@ -20,7 +20,7 @@ from
   godaddy_subscription;
 ```
 
-### List subscriptions with price locked
+### List subscriptions with the price locked
 
 ```sql
 select
@@ -117,7 +117,7 @@ where
   status = 'ACTIVE';
 ```
 
-### List subscriptions that expires in coming 10 days
+### List subscriptions that will expire within the next 10 days.
 
 ```sql
 select
