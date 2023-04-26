@@ -18,5 +18,5 @@ select
   external_id
 from
   godaddy_shopper
-where shopper_id ='14e5f5d4249b'
+where shopper_id ='568421234'
 ```

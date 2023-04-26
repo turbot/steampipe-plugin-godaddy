@@ -1,6 +1,6 @@
 # Table: godaddy_order
 
-<!-- TODO Description -->
+The Order feature of GoDaddy is an API that allows developers to programmatically manage domain name orders and other related products.
 
 ### Basic info
 
@@ -20,7 +20,7 @@ from
 ```sql
 select
   order_id,
-  SUM((pricing ->> 'Total')::numeric) AS total_paid
+  SUM((pricing ->> 'Total')::numeric) as total_paid
 from
   godaddy_order
 group by
@@ -32,8 +32,8 @@ group by
 ```sql
 select
   order_id,
-  DATE_TRUNC('month', created_at) AS month,
-  COUNT(*) AS num_orders
+  DATE_TRUNC('month', created_at) as month,
+  COUNT(*) as num_orders
 from
   godaddy_order
 group by
