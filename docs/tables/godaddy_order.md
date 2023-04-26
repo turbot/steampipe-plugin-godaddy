@@ -33,7 +33,7 @@ group by
 select
   order_id,
   DATE_TRUNC('month', created_at) as month,
-  COUNT(*) as num_orders
+  count(*) as num_orders
 from
   godaddy_order
 group by
