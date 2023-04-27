@@ -111,6 +111,13 @@ func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 				Description: "Specifies subject alternative names set for the certificate.",
 				Type:        proto.ColumnType_JSON,
 			},
+			// GoDaddy standard columns
+			{
+				Name:        "title",
+				Description: "Title of the resource.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("CommonName"),
+			},
 		},
 	}
 }

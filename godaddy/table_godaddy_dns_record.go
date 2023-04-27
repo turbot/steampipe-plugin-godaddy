@@ -85,6 +85,13 @@ func tableGodaddyDNSRecord(_ context.Context) *plugin.Table {
 				Description: "Weighted resource record sets only: Among resource record sets that have the same combination of DNS name and type, a value that determines the proportion of DNS queries that Amazon Route 53 responds to using the current resource record set. Route 53 calculates the sum of the weights for the resource record sets that have the same combination of DNS name and type. Route 53 then responds to queries based on the ratio of a resource's weight to the total.",
 				Type:        proto.ColumnType_INT,
 			},
+			// GoDaddy standard columns
+			{
+				Name:        "title",
+				Description: "Title of the resource.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("Name"),
+			},
 		},
 	}
 }

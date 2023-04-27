@@ -66,6 +66,12 @@ func tableGodaddyShopper(_ context.Context) *plugin.Table {
 				Description: "The last name of the shopper.",
 				Type:        proto.ColumnType_STRING,
 			},
+			{
+				Name:        "title",
+				Description: "Title of the resource.",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("ShopperID"),
+			},
 		},
 	}
 }
