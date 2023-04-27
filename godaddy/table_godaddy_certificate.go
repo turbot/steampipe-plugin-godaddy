@@ -13,7 +13,7 @@ import (
 func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "godaddy_certificate",
-		Description: "Godaddy Certificate",
+		Description: "Returns information about the GoDaddy certificate.",
 		List: &plugin.ListConfig{
 			Hydrate: listCertificates,
 			KeyColumns: plugin.KeyColumnSlice{

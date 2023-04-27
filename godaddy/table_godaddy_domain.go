@@ -14,7 +14,7 @@ import (
 func tableGodaddyDomain(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "godaddy_domain",
-		Description: "Godaddy Domain",
+		Description: "Returns information about the GoDaddy domain.",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("domain"),
 			IgnoreConfig: &plugin.IgnoreConfig{

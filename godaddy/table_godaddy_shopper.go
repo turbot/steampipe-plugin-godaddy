@@ -13,7 +13,7 @@ import (
 func tableGodaddyShopper(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "godaddy_shopper",
-		Description: "Godaddy Shopper",
+		Description: "Returns information about the GoDaddy shopper.",
 		List: &plugin.ListConfig{
 			Hydrate: getShopper,
 			IgnoreConfig: &plugin.IgnoreConfig{

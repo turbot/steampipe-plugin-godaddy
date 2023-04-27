@@ -14,7 +14,7 @@ import (
 func tableGodaddyOrder(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "godaddy_order",
-		Description: "Godaddy Order",
+		Description: "Returns information about the orders for the GoDaddy account.",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("order_id"),
 			IgnoreConfig: &plugin.IgnoreConfig{

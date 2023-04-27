@@ -14,7 +14,7 @@ import (
 func tableGodaddySubscription(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "godaddy_subscription",
-		Description: "Godaddy Subscription",
+		Description: "Returns information about the GoDaddy product subscription.",
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("subscription_id"),
 			IgnoreConfig: &plugin.IgnoreConfig{

@@ -14,7 +14,7 @@ import (
 func tableGodaddyDNSRecord(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "godaddy_dns_record",
-		Description: "Godaddy DNS Record",
+		Description: "Returns information about the DNS record.",
 		List: &plugin.ListConfig{
 			ParentHydrate: listDomains,
 			Hydrate:       listDNSRecords,
