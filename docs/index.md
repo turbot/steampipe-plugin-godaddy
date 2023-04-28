@@ -1,6 +1,6 @@
 ---
 organization: Turbot
-category: ["dns"]
+category: ["internet"]
 icon_url: "/images/plugins/turbot/godaddy.svg"
 brand_color: "#1BDBDB"
 display_name: "GoDaddy"
