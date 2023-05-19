@@ -35,7 +35,7 @@ where
   price_locked;
 ```
 
-### count subscriptions by product key
+### Count subscriptions by product key
 
 ```sql
 select

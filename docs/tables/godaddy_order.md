@@ -27,7 +27,7 @@ group by
   order_id;
 ```
 
-### count the number of orders created per month
+### Count the number of orders created per month
 
 ```sql
 select
@@ -123,7 +123,7 @@ order by
   total_paid desc limit 5;
 ```
 
-### count orders per domain
+### Count orders per domain
 
 ```sql
 select
