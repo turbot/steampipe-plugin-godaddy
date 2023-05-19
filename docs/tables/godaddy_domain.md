@@ -88,7 +88,7 @@ select
 from
   godaddy_domain
 where
-  transfer_away_eligibile_at < NOW();
+  transfer_away_eligibile_at < now();
 ```
 
 ### List domains that expire after a certain date
