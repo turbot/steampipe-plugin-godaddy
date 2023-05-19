@@ -56,5 +56,5 @@ select
 from
   godaddy_certificate
 where
-  certificate_id = '14a42b6a799d4985b5c5e5e5f5d4249b'
+  certificate_id = '14a42b6a799d4985b5c5e5e5f5d4249b';
 ```
