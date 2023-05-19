@@ -51,7 +51,7 @@ select
 from
   godaddy_order
 where
-  parent_order_id = '12345'
+  parent_order_id = '12345';
 ```
 
 ### Get line item details of each order
