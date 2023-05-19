@@ -19,5 +19,5 @@ select
 from
   godaddy_shopper
 where
-  shopper_id ='568421234'
+  shopper_id ='568421234';
 ```
