@@ -97,6 +97,7 @@ func tableGodaddyOrder(_ context.Context) *plugin.Table {
 	}
 }
 
+// The response data should include the domain name as it is the parent of the order. However, the API response does not provide the domain name. Therefore, we need to create a custom struct to accommodate it.
 type OrderInfo struct {
 	DomainName    string
 	BillTo        daddy.BillTo

@@ -96,6 +96,7 @@ func tableGodaddyDNSRecord(_ context.Context) *plugin.Table {
 	}
 }
 
+// The response data should include the domain name as it is the parent of the DNS record. However, the API response does not provide the domain name. Therefore, we need to create a custom struct to accommodate it.
 type DNSRecordInfo struct {
 	DomainName string
 	Data       string
@@ -148,6 +149,7 @@ func listDNSRecords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateD
 		name = d.EqualsQualString("name")
 	}
 
+	// To avoid errors, both the input parameters "name" and "DNS type" must be provided simultaneously in the where clause. Passing only one of them will result in an error being thrown by the API.
 	if name == "" || dnsType == "" {
 		name, dnsType = "", ""
 	}

@@ -58,12 +58,13 @@ func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 			{
 				Name:        "progress",
 				Description: "Percentage of completion for certificate vetting.",
-				Type:        proto.ColumnType_STRING,
+				Type:        proto.ColumnType_INT,
 			},
 			{
 				Name:        "revoked_at",
 				Description: "The revocation date of certificate (if revoked).",
-				Type:        proto.ColumnType_STRING,
+				Type:        proto.ColumnType_TIMESTAMP,
+				Transform:   transform.FromField("RevokedAt").Transform(transform.NullIfZeroValue),
 			},
 			{
 				Name:        "root_type",
