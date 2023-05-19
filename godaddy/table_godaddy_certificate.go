@@ -38,6 +38,7 @@ func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 				Name:        "created_at",
 				Description: "The date the certificate was ordered.",
 				Type:        proto.ColumnType_TIMESTAMP,
+				Transform:   transform.FromField("CreatedAt").Transform(transform.NullIfZeroValue),
 			},
 			{
 				Name:        "denied_reason",
@@ -102,6 +103,11 @@ func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 				Transform:   transform.FromField("ValidStart").Transform(transform.NullIfZeroValue),
 			},
 			{
+				Name:        "contact",
+				Description: "Contact details of the certificate.",
+				Type:        proto.ColumnType_JSON,
+			},
+			{
 				Name:        "organization",
 				Description: "Details of the organization that owns the certificate.",
 				Type:        proto.ColumnType_JSON,
@@ -111,7 +117,7 @@ func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 				Description: "Specifies subject alternative names set for the certificate.",
 				Type:        proto.ColumnType_JSON,
 			},
-			// GoDaddy standard columns
+			// Steampipe standard columns
 			{
 				Name:        "title",
 				Description: "Title of the resource.",

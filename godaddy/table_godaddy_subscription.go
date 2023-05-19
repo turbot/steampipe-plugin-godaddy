@@ -18,7 +18,7 @@ func tableGodaddySubscription(_ context.Context) *plugin.Table {
 		Get: &plugin.GetConfig{
 			KeyColumns: plugin.SingleColumn("subscription_id"),
 			IgnoreConfig: &plugin.IgnoreConfig{
-				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"not found"}),
+				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"NOT_FOUND", "Invalid Subscription Id"}),
 			},
 			Hydrate: getSubscription,
 		},
@@ -134,7 +134,7 @@ func tableGodaddySubscription(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 			},
 
-			// GoDaddy standard columns
+			// Steampipe standard columns
 			{
 				Name:        "title",
 				Description: "Title of the resource.",

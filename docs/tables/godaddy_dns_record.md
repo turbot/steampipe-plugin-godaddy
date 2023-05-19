@@ -30,7 +30,8 @@ select
   ttl
 from
   godaddy_dns_record
-where domain_name = 'example.com';
+where
+  domain_name = 'example.com';
 ```
 
 ### List all DNS records of a specific type for a specific domain name
@@ -45,7 +46,8 @@ select
   ttl
 from
   godaddy_dns_record
-where domain_name = 'example.com' and type = 'A';
+where
+  domain_name = 'example.com' and type = 'A';
 ```
 
 ### List all DNS records with a TTL less than or equal to a certain value
@@ -61,7 +63,8 @@ select
   ttl
 from
   godaddy_dns_record
-where ttl <= '3600';
+where
+  ttl <= '3600';
 ```
 
 ### List all DNS records with a specific data value
@@ -77,7 +80,8 @@ select
   ttl
 from
   godaddy_dns_record
-where data = '192.168.1.1';
+where
+  data = '192.168.1.1';
 ```
 
 ### List all DNS records with a specific priority value
@@ -93,5 +97,6 @@ select
   ttl
 from
   godaddy_dns_record
-where priority = '10';
+where
+  priority = '10';
 ```

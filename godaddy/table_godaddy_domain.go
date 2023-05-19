@@ -161,7 +161,7 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 				Hydrate:     getDomain,
 			},
 
-			// GoDaddy standard columns
+			// Steampipe standard columns
 			{
 				Name:        "title",
 				Description: "Title of the resource.",

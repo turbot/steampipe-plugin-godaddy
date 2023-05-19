@@ -20,7 +20,7 @@ from
   godaddy_subscription;
 ```
 
-### List subscriptions with the price locked
+### List subscriptions with the price locked enabled
 
 ```sql
 select
@@ -35,12 +35,12 @@ where
   price_locked;
 ```
 
-### Count subscriptions by product key
+### count subscriptions by product key
 
 ```sql
 select
   product_group_key,
-  COUNT(*)
+  count(*)
 from
  godaddy_subscription
 group by
@@ -58,7 +58,7 @@ select
 from
   godaddy_subscription
 where
-  addons IS NOT NULL;
+  addons is not null;
 ```
 
 ### List non cancelable subscriptions
@@ -85,7 +85,7 @@ select
 from
   godaddy_subscription
 where
-  created_at BETWEEN '2022-01-01' AND '2022-12-31';
+  created_at between '2022-01-01' and '2022-12-31';
 ```
 
 ### List subscriptions that has auto renew enabled
@@ -117,7 +117,7 @@ where
   status = 'ACTIVE';
 ```
 
-### List subscriptions that will expire within the next 10 days.
+### List subscriptions that will expire within the next 10 days
 
 ```sql
 select
@@ -128,7 +128,7 @@ select
 from
   godaddy_subscription
 where
-  expires_at >= now() - interval '10' day;
+  expires_at <= now() + interval '10' day;
 ```
 
 ### Get product details for each subscription

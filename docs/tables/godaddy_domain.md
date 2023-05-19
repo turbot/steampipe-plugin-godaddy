@@ -1,6 +1,6 @@
 # Table: godaddy_domain
 
-GoDaddy is a popular domain name registrar and web hosting company that allows individuals and businesses to register domain names for their websites. A domain name is the address that people use to access your website on the internet, and GoDaddy offers a wide variety of domain extensions to choose from, such as .com, .org, .net, and many others. In addition to domain registration.
+GoDaddy is a popular domain name registrar and web hosting company that allows individuals and businesses to register domain names for their websites. A domain name is an address that people use to access your website on the internet, and GoDaddy offers a wide variety of domain extensions to choose from, such as .com, .org, .net, and many others in addition to domain registration.
 
 ## Examples
 
@@ -147,7 +147,7 @@ select
   domain_contacts_admin ->> 'NameFirst' as domain_contacts_admin_name_first,
   domain_contacts_admin ->> 'NameMiddle' as domain_contacts_admin_name_middle,
   domain_contacts_admin ->> 'Organization' as domain_contacts_admin_Organization,
-  domain_contacts_admin -> 'AddressMailing' as domain_contacts_admin_address_mailing
+  domain_contacts_admin ->> 'AddressMailing' as domain_contacts_admin_address_mailing
 from
   godaddy_domain;
 ```

@@ -14,7 +14,7 @@ func tableGodaddyShopper(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "godaddy_shopper",
 		Description: "Returns information about the GoDaddy shopper.",
-		List: &plugin.ListConfig{
+		Get: &plugin.GetConfig{
 			Hydrate: getShopper,
 			IgnoreConfig: &plugin.IgnoreConfig{
 				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"Not Found"}),
@@ -66,6 +66,7 @@ func tableGodaddyShopper(_ context.Context) *plugin.Table {
 				Description: "The last name of the shopper.",
 				Type:        proto.ColumnType_STRING,
 			},
+			// Steampipe standard columns
 			{
 				Name:        "title",
 				Description: "Title of the resource.",
@@ -86,7 +87,7 @@ type ShopperInfo struct {
 	NameLast   string
 }
 
-//// LIST FUNCTION
+//// GET FUNCTION
 
 func getShopper(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	// Create Client

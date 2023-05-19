@@ -11,7 +11,7 @@ Use SQL to query projects, groups, builds and more from GoDaddy.
 
 ## Quick start
 
-Download and install the latest GoDaddy plugin:
+Install the plugin with [Steampipe](https://steampipe.io):
 
 ```bash
 steampipe plugin install godaddy
@@ -27,10 +27,10 @@ connection "godaddy" {
 
   # For setting API keys see instructions at https://developer.godaddy.com/keys
   # The API key for the GoDaddy account.
-  # api_key = "hkw64xxxxabchttXW_TmcsFgxJQBvLjE5Lda8402"
+  # api_key = "hkw647irnrhttXW_TmcsFgxJQBvLjE5L1234402"
 
   # The secret key for the GoDaddy account.
-  # secret_key = "DjfrsqEBA4vVjsdsdsdieDShdjs"
+  # secret_key = "DjfrsqEB12345hdsieDShdjs"
 
   # The type of the environment, based on the value the endpoint will be change. Possible values are: DEV | PROD.
   # environment_type = "DEV"

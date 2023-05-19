@@ -22,7 +22,7 @@ select
   revoked_at
 from
   godaddy_certificate
-where certificate_id ='14a42b6a799d4985b5c5e5e5f5d4249b'
+where certificate_id ='14a42b6a799d4985b5c5e5e5f5d4249b';
 ```
 
 ### List of revoked certificates
@@ -38,6 +38,23 @@ select
   valid_end
 from
   godaddy_certificate
-where certificate_id  in ('14a42b6a799d4985b5c5e5e5f5d4249b','14a42b6a799d4985b5c5e5e5f5d4249f') and status = 'REVOKED';
+where
+  certificate_id  in ('14a42b6a799d4985b5c5e5e5f5d4249b','14a42b6a799d4985b5c5e5e5f5d4249f') and status = 'REVOKED';
 ```
 
+### Get contact details of a specific certificate
+
+```sql
+select
+  common_name,
+  contact ->> 'Email' as contact_email,
+  contact ->> 'Fax' as contact_fax,
+  contact ->> 'NameFirst' as contact_first_name,
+  contact ->> 'NameLast' as contact_last_name,
+  contact ->> 'Organization' as contact_organization,
+  contact ->> 'Phone' as contact_phone
+from
+  godaddy_certificate
+where
+  certificate_id = '14a42b6a799d4985b5c5e5e5f5d4249b'
+```

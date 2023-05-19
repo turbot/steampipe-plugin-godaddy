@@ -27,7 +27,7 @@ group by
   order_id;
 ```
 
-### Count the number of orders created per month
+### count the number of orders created per month
 
 ```sql
 select
@@ -70,7 +70,7 @@ from
   jsonb_array_elements(items) as i;
 ```
 
-### Get pricing details of a order
+### Get pricing details of an order
 
 ```sql
 select
@@ -120,15 +120,15 @@ select
 from
   godaddy_order
 order by
-  total_paid dec limit 5;
+  total_paid desc limit 5;
 ```
 
-### Count orders per domain
+### count orders per domain
 
 ```sql
 select
   domain_name,
-  COUNT(*) as num_orders
+  count(*) as num_orders
 from
   godaddy_order
 group by
