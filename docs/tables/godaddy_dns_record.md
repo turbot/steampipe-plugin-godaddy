@@ -47,7 +47,8 @@ select
 from
   godaddy_dns_record
 where
-  domain_name = 'example.com' and type = 'A';
+  domain_name = 'example.com'
+  and type = 'A';
 ```
 
 ### List all DNS records with a TTL less than or equal to a certain value

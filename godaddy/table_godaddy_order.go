@@ -85,7 +85,6 @@ func tableGodaddyOrder(_ context.Context) *plugin.Table {
 				Description: "The pricing associated with the order.",
 				Type:        proto.ColumnType_JSON,
 			},
-
 			// Steampipe standard columns
 			{
 				Name:        "title",

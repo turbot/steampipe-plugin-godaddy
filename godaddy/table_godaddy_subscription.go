@@ -133,7 +133,6 @@ func tableGodaddySubscription(_ context.Context) *plugin.Table {
 				Description: "The relationship between the subscriptions that will be canceled automatically, when current subscription is canceled.",
 				Type:        proto.ColumnType_JSON,
 			},
-
 			// Steampipe standard columns
 			{
 				Name:        "title",

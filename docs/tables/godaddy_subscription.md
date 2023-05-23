@@ -20,7 +20,7 @@ from
   godaddy_subscription;
 ```
 
-### List subscriptions with the price locked enabled
+### List subscriptions with price locked enabled
 
 ```sql
 select

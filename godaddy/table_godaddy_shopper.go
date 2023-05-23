@@ -87,7 +87,7 @@ type ShopperInfo struct {
 	NameLast   string
 }
 
-//// GET FUNCTION
+//// HYDRATED FUNCTION
 
 func getShopper(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
 	// Create Client

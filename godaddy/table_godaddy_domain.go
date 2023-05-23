@@ -160,7 +160,6 @@ func tableGodaddyDomain(_ context.Context) *plugin.Table {
 				Type:        proto.ColumnType_JSON,
 				Hydrate:     getDomain,
 			},
-
 			// Steampipe standard columns
 			{
 				Name:        "title",
