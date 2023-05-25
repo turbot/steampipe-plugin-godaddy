@@ -2,10 +2,10 @@
 organization: Turbot
 category: ["internet"]
 icon_url: "/images/plugins/turbot/godaddy.svg"
-brand_color: "#1BDBDB"
+brand_color: "#1CDBDB"
 display_name: "GoDaddy"
 short_name: "godaddy"
-description: "Steampipe plugin to query projects, groups, builds and more from GoDaddy."
+description: "Steampipe plugin to query domains, orders, certificates and more from GoDaddy."
 og_description: "Query GoDaddy with SQL! Open source CLI. No DB required."
 og_image: "/images/plugins/turbot/godaddy-social-graphic.png"
 ---
@@ -54,7 +54,7 @@ steampipe plugin install godaddy
 
 | Item        | Description                                                                                                                                                                                                                                                                                                                                           |
 | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Credentials | GoDaddy requires an  `API Key` and `Secret Key` for all requests. Create [API keys](https://developer.godaddy.com/keys) and add to `~/.steampipe/config/godaddy.spc`.  GoDaddy API access is segregated for OTE (Operational Test Environment) & Production environment. Also, note that the API and secret keys used to authenticate with the production environment will not work in the OTE environment. You must generate a separate set of API keys for OTE testing. See [here](https://developer.godaddy.com/getstarted) for information. |                                                                                                                                                                                 |                                                                                                                                                                                                                                                                   |
+| Credentials | GoDaddy requires an  `API Key` and `API Secret` for all requests. Create [API keys](https://developer.godaddy.com/keys) and add to `~/.steampipe/config/godaddy.spc`.  GoDaddy API access is segregated for OTE (Operational Test Environment) & Production environment. Also, note that the API and secret keys used to authenticate with the production environment will not work in the OTE environment. You must generate a separate set of API keys for OTE testing. See [here](https://developer.godaddy.com/getstarted) for information. |                                                                                                                                                                                 |                                                                                                                                                                                                                                                                   |
 | Radius  | Each connection represents a single GoDaddy account.                                                                                                                             |
 | Resolution  | 1. Credentials explicitly set in a steampipe config file (`~/.steampipe/config/godaddy.spc`)<br />2. Credentials specified in environment variables, e.g., `GODADDY_API_KEY`, `GODADDY_API_SECRET`and `GODADDY_ENVIRONMENT`.
 
@@ -67,17 +67,18 @@ connection "godaddy" {
   plugin = "godaddy"
 
   # For setting API keys see instructions at https://developer.godaddy.com/keys
-  # The API key for the GoDaddy account.
+  # `api_key`: The API key of the GoDaddy account. (Required).
   # This can also be set via the `GODADDY_API_KEY` environment variable.
   # api_key = "hkw647irnrhttXW_TmcsFgxJQBvLjE5L1234402"
 
-  # The secret key for the GoDaddy account.
+  # `api_secret`: The secret key of the GoDaddy account. (Required).
   # This can also be set via the `GODADDY_API_SECRET` environment variable.
   # api_secret = "DjfrsqEB12345hdsieDShdjs"
 
-  # The type of the environment, based on the value the endpoint will be change. Possible values are: DEV | PROD.
+  # `environment`: The type of the environment, based on the value the API endpoint will change. Possible values are: DEV | PROD. (Optional)
+  # Defaults to PROD
   # This can also be set via the `GODADDY_ENVIRONMENT` environment variable.
-  # environment = "DEV"
+  # environment = "PROD"
 }
 ```
 

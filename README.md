@@ -21,7 +21,7 @@ steampipe plugin install godaddy
 
 Configure your [credentials](https://hub.steampipe.io/plugins/turbot/godaddy#credentials) and [config file](https://hub.steampipe.io/plugins/turbot/godaddy#configuration).
 
-Configure the Godaddy API Key, API Secret and Environment Type in `~/.steampipe/config/godaddy.spc`:
+Configure the Godaddy API Key, API Secret and Environment in `~/.steampipe/config/godaddy.spc`:
 
 ```hcl
 connection "godaddy" {
@@ -30,7 +30,7 @@ connection "godaddy" {
   # Authentication information
   api_key = "hkw647irnrhttXW_TmcsFgxJQBvLjE5L1234402"
   api_secret = "DjfrsqEB12345hdsieDShdjs"
-  environment = "DEV"
+  environment = "PROD"
 }
 ```
 
@@ -39,7 +39,7 @@ Or through environment variables:
 ```sh
 export GODADDY_API_KEY=hkw64xxxxabchttXW_TmcsFgxJQBvLjE5Lda8402
 export GODADDY_API_SECRET=DjfrsqEBA4vVjsdsdsdieDShdjs
-export GODADDY_ENVIRONMENT=DEV
+export GODADDY_ENVIRONMENT=PROD
 ```
 
 Run steampipe:

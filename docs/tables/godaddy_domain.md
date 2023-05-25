@@ -76,7 +76,7 @@ where
   status <> 'ACTIVE';
 ```
 
-### List domains that are eligible to transfer now
+### List domains that are eligible for transfer at the moment
 
 ```sql
 select
@@ -91,7 +91,7 @@ where
   transfer_away_eligibile_at < now();
 ```
 
-### List domains that expire after a certain date
+### List domains that will expire after a particular date
 
 ```sql
 select
@@ -106,7 +106,7 @@ where
   expires > '2023-12-31';
 ```
 
-### List domains that are created in the last 30 days
+### List domains created in the last 30 days
 
 ```sql
 select
@@ -122,7 +122,7 @@ where
   created_at >= now() - interval '30' day;
 ```
 
-### Get nameservers for each domain
+### Get nameservers of each domain
 
 ```sql
 select
@@ -134,7 +134,7 @@ from
   jsonb_array_elements_text(nameservers) as n;
 ```
 
-### Get domain admin contact details for each domain
+### Get domain admin contact details of each domain
 
 ```sql
 select
@@ -152,11 +152,13 @@ from
   godaddy_domain;
 ```
 
-### Get verification details for each domain
+### Get verification details of each domain
 
 ```sql
 select
   domain,
+  domain_id,
+  created_at,
   verifications -> 'DomainName' ->> 'Status' as verfivication_domain_name,
   verifications -> 'RealName' ->> 'Status' as verfivication_real_name
 from

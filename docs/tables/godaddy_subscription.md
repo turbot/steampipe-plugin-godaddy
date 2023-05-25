@@ -74,7 +74,7 @@ where
   not cancelable;
 ```
 
-### List subscriptions that are created between two specific dates
+### List subscriptions that were created between two specific dates
 
 ```sql
 select
@@ -131,7 +131,7 @@ where
   expires_at <= now() + interval '10' day;
 ```
 
-### Get product details for each subscription
+### Get product details of each subscription
 
 ```sql
 select
@@ -148,7 +148,7 @@ from
   godaddy_subscription;
 ```
 
-### Get the billing details for each subscription
+### Get the billing details of each subscription
 
 ```sql
 select
