@@ -76,7 +76,7 @@ where
   status <> 'ACTIVE';
 ```
 
-### List domains that are eligible for transfer away
+### List domains that are eligible to transfer now
 
 ```sql
 select

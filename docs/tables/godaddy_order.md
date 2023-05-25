@@ -32,7 +32,7 @@ group by
 ```sql
 select
   order_id,
-  DATE_TRUNC('month', created_at) as month,
+  date_trunc('month', created_at) as month,
   count(*) as num_orders
 from
   godaddy_order
@@ -41,7 +41,7 @@ group by
   created_at;
 ```
 
-### List orders by parent order id
+### List orders by parent order ID
 
 ```sql
 select

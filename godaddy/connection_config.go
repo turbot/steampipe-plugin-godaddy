@@ -11,19 +11,19 @@ import (
 )
 
 type godaddyConfig struct {
-	API_KEY         *string `cty:"api_key"`
-	SECRET_KEY      *string `cty:"secret_key"`
-	EVIRONMENT_TYPE *string `cty:"environment_type"`
+	ApiKey      *string `cty:"api_key"`
+	ApiSecret   *string `cty:"api_secret"`
+	Environment *string `cty:"environment"`
 }
 
 var ConfigSchema = map[string]*schema.Attribute{
 	"api_key": {
 		Type: schema.TypeString,
 	},
-	"secret_key": {
+	"api_secret": {
 		Type: schema.TypeString,
 	},
-	"environment_type": {
+	"environment": {
 		Type: schema.TypeString,
 	},
 }
@@ -45,31 +45,31 @@ func GetConfig(connection *plugin.Connection) godaddyConfig {
 func getClient(ctx context.Context, d *plugin.QueryData) (*daddy.Client, error) {
 	godaddyConfig := GetConfig(d.Connection)
 
-	envType := os.Getenv("GODADDY_ENVIRONMENT_TYPE")
 	apiKey := os.Getenv("GODADDY_API_KEY")
-	secretKey := os.Getenv("GODADDY_SECRET_KEY")
+	secretKey := os.Getenv("GODADDY_API_SECRET")
+	envType := os.Getenv("GODADDY_ENVIRONMENT")
 
-	if godaddyConfig.API_KEY != nil {
-		apiKey = *godaddyConfig.API_KEY
+	if godaddyConfig.ApiKey != nil {
+		apiKey = *godaddyConfig.ApiKey
 	}
-	if godaddyConfig.SECRET_KEY != nil {
-		secretKey = *godaddyConfig.SECRET_KEY
+	if godaddyConfig.ApiSecret != nil {
+		secretKey = *godaddyConfig.ApiSecret
 	}
-	if godaddyConfig.EVIRONMENT_TYPE != nil {
-		envType = *godaddyConfig.EVIRONMENT_TYPE
-	}
-
-	if apiKey == "" || secretKey == "" || envType == "" {
-		return nil, errors.New("'api_key', 'secret_key' and 'environment_type' must be set in the connection configuration. Edit your connection configuration file and then restart Steampipe.")
+	if godaddyConfig.Environment != nil {
+		envType = *godaddyConfig.Environment
 	}
 
-	// Based on the environment type we need to pass the endpoint URL
+	if apiKey == "" || secretKey == "" {
+		return nil, errors.New("'api_key' and 'api_secret' must be set in the connection configuration. Edit your connection configuration file and then restart Steampipe.")
+	}
+
+	// Based on the environment we need to pass the endpoint URL
 	switch envType {
 	case "DEV":
 		return daddy.NewClient(apiKey, secretKey, true)
-	case "PROD":
+	case "PROD", "": // Default to production if no environment type is set.
 		return daddy.NewClient(apiKey, secretKey, false)
 	default:
-		return nil, errors.New("'environment_type' must be set in the connection configuration to 'DEV' or 'PROD'. Edit your connection configuration file and then restart Steampipe.")
+		return nil, errors.New("'environment' must be set in the connection configuration to 'DEV' or 'PROD'. Edit your connection configuration file and then restart Steampipe.")
 	}
 }

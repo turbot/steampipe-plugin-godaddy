@@ -2,6 +2,8 @@
 
 GoDaddy is a popular web hosting and domain registrar company that offers various subscription plans for individuals and businesses. A DNS record in GoDaddy specifies the mapping between a domain name and an IP address or other information. DNS records are used to translate human-friendly domain names, such as example.com, into machine-readable IP addresses, such as 192.0.2.1, that are used to route traffic over the internet. Different types of DNS records serve different purposes, such as mapping a domain name to an IP address (A record), specifying a mail server for the domain (MX record), or defining aliases for the domain (CNAME record).
 
+**Note**: To filter the resource using `name`; you must set `type` in the where clause.
+
 ## Examples
 
 ### Basic info

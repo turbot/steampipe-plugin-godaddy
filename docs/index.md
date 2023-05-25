@@ -56,7 +56,7 @@ steampipe plugin install godaddy
 | ----------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Credentials | GoDaddy requires an  `API Key` and `Secret Key` for all requests. Create [API keys](https://developer.godaddy.com/keys) and add to `~/.steampipe/config/godaddy.spc`.  GoDaddy API access is segregated for OTE (Operational Test Environment) & Production environment. Also, note that the API and secret keys used to authenticate with the production environment will not work in the OTE environment. You must generate a separate set of API keys for OTE testing. See [here](https://developer.godaddy.com/getstarted) for information. |                                                                                                                                                                                 |                                                                                                                                                                                                                                                                   |
 | Radius  | Each connection represents a single GoDaddy account.                                                                                                                             |
-| Resolution  | 1. Credentials explicitly set in a steampipe config file (`~/.steampipe/config/godaddy.spc`)<br />2. Credentials specified in environment variables, e.g., `GODADDY_ENVIRONMENT_TYPE`, `GODADDY_API_KEY` and `GODADDY_SECRET_KEY`.                                                                                                                               |
+| Resolution  | 1. Credentials explicitly set in a steampipe config file (`~/.steampipe/config/godaddy.spc`)<br />2. Credentials specified in environment variables, e.g., `GODADDY_API_KEY`, `GODADDY_API_SECRET`and `GODADDY_ENVIRONMENT`.
 
 ### Configuration
 
@@ -72,21 +72,21 @@ connection "godaddy" {
   # api_key = "hkw647irnrhttXW_TmcsFgxJQBvLjE5L1234402"
 
   # The secret key for the GoDaddy account.
-  # This can also be set via the `GODADDY_SECRET_KEY` environment variable.
-  # secret_key = "DjfrsqEB12345hdsieDShdjs"
+  # This can also be set via the `GODADDY_API_SECRET` environment variable.
+  # api_secret = "DjfrsqEB12345hdsieDShdjs"
 
   # The type of the environment, based on the value the endpoint will be change. Possible values are: DEV | PROD.
-  # This can also be set via the `GODADDY_ENVIRONMENT_TYPE` environment variable.
-  # environment_type = "DEV"
+  # This can also be set via the `GODADDY_ENVIRONMENT` environment variable.
+  # environment = "DEV"
 }
 ```
 
-Alternatively, you can also use the GoDaddy environment variables to obtain credentials **only if other arguments `api_key`  `secret_key` and `environment_type` are not specified** in the connection:
+Alternatively, you can also use the GoDaddy environment variables to obtain credentials **only if other arguments `api_key`  `api_secret` and `environment` are not specified** in the connection:
 
 ```sh
-export GODADDY_ENVIRONMENT_TYPE="DEV"
-export GODADDY_API_KEY="hkw64xxxxabchttXW_TmcsFgxJQBvLjE5Lda8402"
-export GODADDY_SECRET_KEY="DjfrsqEBA4vVjsdsdsdieDShdjs"
+export GODADDY_API_KEY=hkw64xxxxabchttXW_TmcsFgxJQBvLjE5Lda8402
+export GODADDY_API_SECRET=DjfrsqEBA4vVjsdsdsdieDShdjs
+export GODADDY_ENVIRONMENT=DEV
 ```
 
 ## Get involved

@@ -2,6 +2,7 @@ package godaddy
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/turbot/go-daddy/daddy"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
@@ -149,9 +150,9 @@ func listDNSRecords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateD
 		name = d.EqualsQualString("name")
 	}
 
-	// To avoid errors, both the input parameters "name" and "DNS type" must be provided simultaneously in the where clause. Passing only one of them will result in an error being thrown by the API.
-	if name == "" || dnsType == "" {
-		name, dnsType = "", ""
+	// To avoid errors, both the input parameters "name" and "DNS type" must be provided simultaneously in the where clause. Passing only DNS name will result in an error being thrown by the API.
+	if name != "" && dnsType == "" {
+		return nil, fmt.Errorf("Name and DNS type must be pass in where clause alltogether if we are passing DNS record name")
 	}
 
 	result, err := client.Domains.GetRecords(domainName, dnsType, name, 0, maxLimit)

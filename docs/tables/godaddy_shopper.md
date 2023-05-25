@@ -2,7 +2,7 @@
 
 GoDaddy Shopper feature allows customers to create a centralized account to manage all of their GoDaddy products and services in one place.
 
-Note: The used [Go API](https://pkg.go.dev/github.com/alyx/go-daddy/daddy#ShoppersService.Get) limitation, you must provide valid `shopper_id` in the `where` clause of the queries to fetch shopping details.
+Note: As per the [Go API](https://pkg.go.dev/github.com/alyx/go-daddy/daddy#ShoppersService.Get) limitation, you must provide a valid `shopper_id` in the `where` clause of the queries to fetch shopping details.
 
 ## Examples
 

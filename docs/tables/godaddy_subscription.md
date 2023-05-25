@@ -40,7 +40,7 @@ where
 ```sql
 select
   product_group_key,
-  count(*)
+  count(*) as subscription_count
 from
  godaddy_subscription
 group by
@@ -61,7 +61,7 @@ where
   addons is not null;
 ```
 
-### List non cancelable subscriptions
+### List non-cancelable subscriptions
 
 ```sql
 select
@@ -88,7 +88,7 @@ where
   created_at between '2022-01-01' and '2022-12-31';
 ```
 
-### List subscriptions that has auto renew enabled
+### List subscriptions that have auto-renew enabled
 
 ```sql
 select
