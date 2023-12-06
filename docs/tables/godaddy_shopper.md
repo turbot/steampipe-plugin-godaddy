@@ -11,6 +11,9 @@ GoDaddy is a widely-used domain registrar and web hosting company. The 'Shopper'
 
 The `godaddy_shopper` table provides insights into registered shoppers within GoDaddy. As a system administrator or a DevOps engineer, you can explore shopper-specific details through this table, including shopper ID, name, and email. Utilize it to uncover information about shoppers, such as their contact details and the status of their accounts.
 
+**Important Notes**
+- You must specify the `shopper_id` in the `where` clause to query this table.
+
 ## Examples
 
 ### Basic info

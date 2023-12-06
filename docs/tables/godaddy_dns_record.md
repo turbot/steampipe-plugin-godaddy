@@ -11,6 +11,9 @@ GoDaddy DNS Records are a critical part of the GoDaddy domain hosting service. T
 
 The `godaddy_dns_record` table provides insights into DNS records within GoDaddy's domain hosting service. As a network administrator or website owner, explore specific details through this table, including record type, name, and data. Utilize it to manage and monitor your DNS records, ensuring your domain's web traffic and email routing are correctly configured and operating as intended.
 
+**Important Notes**
+- To filter the resource using `name`, you must set `type` in the where clause.
+
 ## Examples
 
 ### Basic info

@@ -11,6 +11,9 @@ GoDaddy Certificate is a digital certificate used to secure websites and enable 
 
 The `godaddy_certificate` table provides insights into GoDaddy Certificates. As a security analyst, you can leverage this table to gather detailed information about each certificate, including its common name, issuer, serial number, and validity period. This can aid in managing and monitoring the security of your web applications and services hosted on GoDaddy.
 
+**Important Notes**
+- You must specify the `certificate_id` in the `where` clause to query this table.
+
 ## Examples
 
 ### Basic info
