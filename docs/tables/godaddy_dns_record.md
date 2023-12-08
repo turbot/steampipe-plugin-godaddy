@@ -19,7 +19,19 @@ The `godaddy_dns_record` table provides insights into DNS records within GoDaddy
 ### Basic info
 Explore which domain names are associated with your GoDaddy DNS records. This query can help you gain insights into your DNS configuration, including the protocol and type of each record, which could be beneficial for managing and troubleshooting your network.
 
-```sql
+```sql+postgres
+select
+  name,
+  domain_name,
+  data,
+  protocol,
+  type,
+  ttl
+from
+  godaddy_dns_record;
+```
+
+```sql+sqlite
 select
   name,
   domain_name,
@@ -34,7 +46,21 @@ from
 ### List all DNS records for a specific domain name
 Explore all DNS records associated with a specific domain name. This can be useful for understanding and managing the various services and protocols tied to your domain.
 
-```sql
+```sql+postgres
+select
+  name,
+  data,
+  protocol,
+  type,
+  service,
+  ttl
+from
+  godaddy_dns_record
+where
+  domain_name = 'example.com';
+```
+
+```sql+sqlite
 select
   name,
   data,
@@ -51,7 +77,22 @@ where
 ### List all DNS records of a specific type for a specific domain name
 Determine the specific DNS records associated with a particular domain name. This query can be used to gain insights into the configuration and settings of a domain, which can be beneficial for troubleshooting or optimization purposes.
 
-```sql
+```sql+postgres
+select
+  name,
+  data,
+  protocol,
+  type,
+  service,
+  ttl
+from
+  godaddy_dns_record
+where
+  domain_name = 'example.com'
+  and type = 'A';
+```
+
+```sql+sqlite
 select
   name,
   data,
@@ -69,7 +110,7 @@ where
 ### List all DNS records with a TTL less than or equal to a certain value
 Explore DNS records that have a time-to-live (TTL) value of 3600 seconds or less. This can be useful for identifying domains that may require frequent updates or are more susceptible to potential caching issues.
 
-```sql
+```sql+postgres
 select
   name,
   domain_name,
@@ -84,10 +125,40 @@ where
   ttl <= '3600';
 ```
 
+```sql+sqlite
+select
+  name,
+  domain_name,
+  data,
+  protocol,
+  type,
+  service,
+  ttl
+from
+  godaddy_dns_record
+where
+  ttl <= 3600;
+```
+
 ### List all DNS records with a specific data value
 Explore DNS records that are associated with a specific IP address. This is useful for identifying potential anomalies or inconsistencies in your DNS configuration.
 
-```sql
+```sql+postgres
+select
+  name,
+  domain_name,
+  data,
+  protocol,
+  type,
+  service,
+  ttl
+from
+  godaddy_dns_record
+where
+  data = '192.168.1.1';
+```
+
+```sql+sqlite
 select
   name,
   domain_name,
@@ -105,7 +176,22 @@ where
 ### List all DNS records with a specific priority value
 Determine the areas in which DNS records have been assigned a specific priority value. This is useful for assessing the configuration of your domain names and ensuring that the most important records have the correct priority level.
 
-```sql
+```sql+postgres
+select
+  name,
+  domain_name,
+  data,
+  protocol,
+  type,
+  service,
+  ttl
+from
+  godaddy_dns_record
+where
+  priority = '10';
+```
+
+```sql+sqlite
 select
   name,
   domain_name,

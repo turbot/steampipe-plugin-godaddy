@@ -19,7 +19,25 @@ The `godaddy_certificate` table provides insights into GoDaddy Certificates. As 
 ### Basic info
 Discover the segments that are related to a specific GoDaddy certificate. This query can be used to gain insights into the status, validity period, and revocation details of a certificate, which is beneficial for managing and tracking your SSL certificates.
 
-```sql
+```sql+postgres
+select
+  common_name,
+  status,
+  certificate_id,
+  serial_number,
+  created_at,
+  organization,
+  root_type,
+  valid_start,
+  valid_end,
+  revoked_at
+from
+  godaddy_certificate
+where
+  certificate_id ='14a42b6a799d4985b5c5e5e5f5d4249b';
+```
+
+```sql+sqlite
 select
   common_name,
   status,
@@ -40,7 +58,23 @@ where
 ### List of revoked certificates
 Discover the segments that contain revoked certificates to maintain the security and integrity of your network. This can be particularly useful in identifying potential vulnerabilities or malicious activities.
 
-```sql
+```sql+postgres
+select
+  common_name,
+  status,
+  certificate_id,
+  serial_number,
+  created_at,
+  valid_start,
+  valid_end
+from
+  godaddy_certificate
+where
+  certificate_id  in ('14a42b6a799d4985b5c5e5e5f5d4249b','14a42b6a799d4985b5c5e5e5f5d4249f')
+  and status = 'REVOKED';
+```
+
+```sql+sqlite
 select
   common_name,
   status,
@@ -59,7 +93,7 @@ where
 ### Get contact details of a specific certificate
 This query is used to gather detailed contact information related to a specific certificate from GoDaddy. This can be particularly useful when you need to reach out to the certificate holder for any updates or issues.
 
-```sql
+```sql+postgres
 select
   common_name,
   contact ->> 'Email' as contact_email,
@@ -68,6 +102,21 @@ select
   contact ->> 'NameLast' as contact_last_name,
   contact ->> 'Organization' as contact_organization,
   contact ->> 'Phone' as contact_phone
+from
+  godaddy_certificate
+where
+  certificate_id = '14a42b6a799d4985b5c5e5e5f5d4249b';
+```
+
+```sql+sqlite
+select
+  common_name,
+  json_extract(contact, '$.Email') as contact_email,
+  json_extract(contact, '$.Fax') as contact_fax,
+  json_extract(contact, '$.NameFirst') as contact_first_name,
+  json_extract(contact, '$.NameLast') as contact_last_name,
+  json_extract(contact, '$.Organization') as contact_organization,
+  json_extract(contact, '$.Phone') as contact_phone
 from
   godaddy_certificate
 where

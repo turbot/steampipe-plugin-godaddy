@@ -19,7 +19,21 @@ The `godaddy_shopper` table provides insights into registered shoppers within Go
 ### Basic info
 Discover the segments that include specific customer data to understand their market affiliation and contact details. This can be useful to gain insights into individual customer profiles for personalized marketing or customer service efforts.
 
-```sql
+```sql+postgres
+select
+  customer_id,
+  market_id,
+  name_first,
+  name_last,
+  email,
+  external_id
+from
+  godaddy_shopper
+where
+  shopper_id ='568421234';
+```
+
+```sql+sqlite
 select
   customer_id,
   market_id,
