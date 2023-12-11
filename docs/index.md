@@ -8,6 +8,7 @@ short_name: "godaddy"
 description: "Steampipe plugin to query domains, orders, certificates and more from GoDaddy."
 og_description: "Query GoDaddy with SQL! Open source CLI. No DB required."
 og_image: "/images/plugins/turbot/godaddy-social-graphic.png"
+engines: ["steampipe", "sqlite", "postgres", "export"]
 ---
 
 # GoDaddy + Steampipe
