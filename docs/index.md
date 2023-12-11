@@ -91,7 +91,4 @@ export GODADDY_API_SECRET=DjfrsqEBA4vVjsdsdsdieDShdjs
 export GODADDY_ENVIRONMENT=DEV
 ```
 
-## Get involved
 
-- Open source: https://github.com/turbot/steampipe-plugin-godaddy
-- Community: [Join #steampipe on Slack →](https://turbot.com/community/join)
