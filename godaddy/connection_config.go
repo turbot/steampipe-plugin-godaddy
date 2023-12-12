@@ -7,25 +7,12 @@ import (
 
 	"github.com/turbot/go-daddy/daddy"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/schema"
 )
 
 type godaddyConfig struct {
-	ApiKey      *string `cty:"api_key"`
-	ApiSecret   *string `cty:"api_secret"`
-	Environment *string `cty:"environment"`
-}
-
-var ConfigSchema = map[string]*schema.Attribute{
-	"api_key": {
-		Type: schema.TypeString,
-	},
-	"api_secret": {
-		Type: schema.TypeString,
-	},
-	"environment": {
-		Type: schema.TypeString,
-	},
+	ApiKey      *string `hcl:"api_key"`
+	ApiSecret   *string `hcl:"api_secret"`
+	Environment *string `hcl:"environment"`
 }
 
 func ConfigInstance() interface{} {
