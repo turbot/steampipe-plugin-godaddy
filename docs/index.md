@@ -8,13 +8,14 @@ short_name: "godaddy"
 description: "Steampipe plugin to query domains, orders, certificates and more from GoDaddy."
 og_description: "Query GoDaddy with SQL! Open source CLI. No DB required."
 og_image: "/images/plugins/turbot/godaddy-social-graphic.png"
+engines: ["steampipe", "sqlite", "postgres", "export"]
 ---
 
 # GoDaddy + Steampipe
 
 [GoDaddy](https://godaddy.com) is a publicly traded internet domain registrar and web hosting company. It provides services such as domain registration, website hosting, website building, and email hosting for individuals and businesses.
 
-[Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
+[Steampipe](https://steampipe.io) is an open-source zero-ETL engine to instantly query cloud APIs using SQL.
 
 List your GoDaddy domains:
 
@@ -90,7 +91,4 @@ export GODADDY_API_SECRET=DjfrsqEBA4vVjsdsdsdieDShdjs
 export GODADDY_ENVIRONMENT=DEV
 ```
 
-## Get involved
 
-- Open source: https://github.com/turbot/steampipe-plugin-godaddy
-- Community: [Join #steampipe on Slack →](https://turbot.com/community/join)
