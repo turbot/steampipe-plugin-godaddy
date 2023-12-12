@@ -15,7 +15,7 @@ engines: ["steampipe", "sqlite", "postgres", "export"]
 
 [GoDaddy](https://godaddy.com) is a publicly traded internet domain registrar and web hosting company. It provides services such as domain registration, website hosting, website building, and email hosting for individuals and businesses.
 
-[Steampipe](https://steampipe.io) is an open source CLI to instantly query cloud APIs using SQL.
+[Steampipe](https://steampipe.io) is an open-source zero-ETL engine to instantly query cloud APIs using SQL.
 
 List your GoDaddy domains:
 
