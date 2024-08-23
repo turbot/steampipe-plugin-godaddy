@@ -6,6 +6,7 @@ import (
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
+	"github.com/turbot/steampipe-plugin-sdk/v5/query_cache"
 )
 
 //// TABLE DEFINITION
@@ -13,9 +14,19 @@ import (
 func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 	return &plugin.Table{
 		Name:        "godaddy_certificate",
-		Description: "Returns information about the GoDaddy certificate.",
+		Description: "Returns information about the GoDaddy certificate by customer.",
 		List: &plugin.ListConfig{
 			Hydrate: listCertificates,
+			KeyColumns: plugin.KeyColumnSlice{
+				{
+					Name:       "customer_id",
+					Require:    plugin.Required,
+					CacheMatch: query_cache.CacheMatchExact,
+				},
+			},
+		},
+		Get: &plugin.GetConfig{
+			Hydrate: getCertificate,
 			KeyColumns: plugin.KeyColumnSlice{
 				{
 					Name:    "certificate_id",
@@ -28,6 +39,12 @@ func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 				Name:        "certificate_id",
 				Description: "The unique identifier of the certificate request. Only present if no errors returned.",
 				Type:        proto.ColumnType_STRING,
+			},
+			{
+				Name:        "customer_id",
+				Description: "The unique identifier for a customer",
+				Type:        proto.ColumnType_STRING,
+				Transform:   transform.FromField("customer_id"),
 			},
 			{
 				Name:        "common_name",
@@ -140,6 +157,70 @@ func listCertificates(ctx context.Context, d *plugin.QueryData, h *plugin.Hydrat
 		return nil, err
 	}
 
+	customerId := d.EqualsQualString("customer_id")
+
+	// Empty check
+	if customerId == "" {
+		return nil, nil
+	}
+
+	maxLimit := 100
+	if d.QueryContext.Limit != nil {
+		limit := int32(*d.QueryContext.Limit)
+		if limit < int32(maxLimit) {
+			maxLimit = int(limit)
+		}
+	}
+	offset := 0
+
+	result, err := client.Certificates.ListByCustomer(customerId, maxLimit, offset)
+	if err != nil {
+		plugin.Logger(ctx).Error("godaddy_certificate.listCertificates", "api_error", err.Error())
+		return nil, err
+	}
+
+	for _, item := range result.Certificates {
+		d.StreamListItem(ctx, item)
+
+		// Context may get cancelled due to manual cancellation or if the limit has been reached
+		if d.RowsRemaining(ctx) == 0 {
+			return nil, nil
+		}
+	}
+
+	for result.Pagination.Next != "" {
+		offset += maxLimit
+		res, err := client.Certificates.ListByCustomer(customerId, maxLimit, offset)
+
+		if err != nil {
+			plugin.Logger(ctx).Error("godaddy_certificate.listCertificates", "api_paging_error", err.Error())
+			return nil, err
+		}
+		for _, item := range res.Certificates {
+			d.StreamListItem(ctx, item)
+
+			// Context may get cancelled due to manual cancellation or if the limit has been reached
+			if d.RowsRemaining(ctx) == 0 {
+				return nil, nil
+			}
+		}
+		result.Pagination = res.Pagination
+	}
+
+	return nil, nil
+}
+
+//// HYDRATED FUNCTION
+
+func getCertificate(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+
+	// Create Client
+	client, err := getClient(ctx, d)
+	if err != nil {
+		plugin.Logger(ctx).Error("godaddy_certificate.getCertificate", "client_error", err)
+		return nil, err
+	}
+
 	certId := d.EqualsQualString("certificate_id")
 
 	// Empty check
@@ -149,7 +230,7 @@ func listCertificates(ctx context.Context, d *plugin.QueryData, h *plugin.Hydrat
 
 	result, _ := client.Certificates.Get(certId)
 	if err != nil {
-		plugin.Logger(ctx).Error("godaddy_certificate.listCertificates", "api_error", err.Error())
+		plugin.Logger(ctx).Error("godaddy_certificate.getCertificate", "api_error", err.Error())
 		return nil, err
 	}
 

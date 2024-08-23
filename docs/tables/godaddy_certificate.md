@@ -12,7 +12,7 @@ GoDaddy Certificate is a digital certificate used to secure websites and enable 
 The `godaddy_certificate` table provides insights into GoDaddy Certificates. As a security analyst, you can leverage this table to gather detailed information about each certificate, including its common name, issuer, serial number, and validity period. This can aid in managing and monitoring the security of your web applications and services hosted on GoDaddy.
 
 **Important Notes**
-- You must specify the `certificate_id` in the `where` clause to query this table.
+- You must specify the `customer_id` or `certificate_id` in the `where` clause to query this table.
 
 ## Examples
 
@@ -53,6 +53,39 @@ from
   godaddy_certificate
 where
   certificate_id ='14a42b6a799d4985b5c5e5e5f5d4249b';
+```
+
+### List certificates by customer ID
+List certificate for a particular customer.
+
+```sql+postgres
+select
+  customer_id,
+  common_name,
+  status,
+  certificate_id,
+  created_at,
+  valid_start,
+  valid_end
+from
+  godaddy_certificate
+where
+  customer_id = '295e3bc3-b3b9-4d95-aae5-ede41a994d13';
+```
+
+```sql+sqlite
+select
+  customer_id,
+  common_name,
+  status,
+  certificate_id,
+  created_at,
+  valid_start,
+  valid_end
+from
+  godaddy_certificate
+where
+  customer_id = '295e3bc3-b3b9-4d95-aae5-ede41a994d13';
 ```
 
 ### List of revoked certificates
