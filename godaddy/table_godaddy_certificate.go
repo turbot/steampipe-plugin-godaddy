@@ -17,7 +17,7 @@ func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 		Name:        "godaddy_certificate",
 		Description: "Returns information about the GoDaddy certificate by customer.",
 		List: &plugin.ListConfig{
-			Hydrate: getCertificate,
+			Hydrate: listCertificates,
 			KeyColumns: plugin.KeyColumnSlice{
 				{
 					Name:       "customer_id",

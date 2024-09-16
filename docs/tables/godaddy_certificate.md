@@ -70,7 +70,7 @@ select
 from
   godaddy_certificate
 where
-  certificate_id = '295e3bc3-b3b9-4d95-aae5-ede41a994d13';
+  customer_id = '295e3bc3-b3b9-4d95-aae5-ede41a994d13';
 ```
 
 ```sql+sqlite
@@ -85,7 +85,7 @@ select
 from
   godaddy_certificate
 where
-  certificate_id = '295e3bc3-b3b9-4d95-aae5-ede41a994d13';
+  customer_id = '295e3bc3-b3b9-4d95-aae5-ede41a994d13';
 ```
 
 ### List of revoked certificates
