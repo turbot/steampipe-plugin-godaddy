@@ -3,6 +3,7 @@ package godaddy
 import (
 	"context"
 
+	"github.com/turbot/go-daddy/daddy"
 	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
 	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
@@ -27,6 +28,9 @@ func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 		},
 		Get: &plugin.GetConfig{
 			Hydrate: getCertificate,
+			IgnoreConfig: &plugin.IgnoreConfig{
+				ShouldIgnoreErrorFunc: shouldIgnoreErrors([]string{"not found"}),
+			},
 			KeyColumns: plugin.KeyColumnSlice{
 				{
 					Name:    "certificate_id",
@@ -61,6 +65,7 @@ func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 				Name:        "denied_reason",
 				Description: "Reason specified if certificate order has been denied.",
 				Type:        proto.ColumnType_STRING,
+				Hydrate:     getCertificate,
 			},
 			{
 				Name:        "period",
@@ -71,6 +76,7 @@ func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 				Name:        "product_type",
 				Description: "Certificate product type.",
 				Type:        proto.ColumnType_STRING,
+				Hydrate:     getCertificate,
 			},
 			{
 				Name:        "progress",
@@ -87,6 +93,7 @@ func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 				Name:        "root_type",
 				Description: "Root type of the certificate.",
 				Type:        proto.ColumnType_STRING,
+				Hydrate:     getCertificate,
 			},
 			{
 				Name:        "serial_number",
@@ -97,6 +104,7 @@ func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 				Name:        "serial_number_hex",
 				Description: "The hexadecmial format of serial number of the certificate(if issued or revoked).",
 				Type:        proto.ColumnType_STRING,
+				Hydrate:     getCertificate,
 			},
 			{
 				Name:        "slot_size",
@@ -112,28 +120,31 @@ func tableGodaddyCertificate(_ context.Context) *plugin.Table {
 				Name:        "valid_end",
 				Description: "The end date of the certificate's validity (if issued or revoked).",
 				Type:        proto.ColumnType_TIMESTAMP,
-				Transform:   transform.FromField("ValidEnd").Transform(transform.NullIfZeroValue),
+				Transform:   transform.FromField("ValidEnd", "ValidEndAt").Transform(transform.NullIfZeroValue),
 			},
 			{
 				Name:        "valid_start",
 				Description: "The start date of the certificate's validity (if issued or revoked).",
 				Type:        proto.ColumnType_TIMESTAMP,
-				Transform:   transform.FromField("ValidStart").Transform(transform.NullIfZeroValue),
+				Transform:   transform.FromField("ValidStart", "ValidStartAt").Transform(transform.NullIfZeroValue),
 			},
 			{
 				Name:        "contact",
 				Description: "Contact details of the certificate.",
 				Type:        proto.ColumnType_JSON,
+				Hydrate:     getCertificate,
 			},
 			{
 				Name:        "organization",
 				Description: "Details of the organization that owns the certificate.",
 				Type:        proto.ColumnType_JSON,
+				Hydrate:     getCertificate,
 			},
 			{
 				Name:        "subject_alternative_names",
 				Description: "Specifies subject alternative names set for the certificate.",
 				Type:        proto.ColumnType_JSON,
+				Hydrate:     getCertificate,
 			},
 			// Steampipe standard columns
 			{
@@ -213,6 +224,13 @@ func listCertificates(ctx context.Context, d *plugin.QueryData, h *plugin.Hydrat
 //// HYDRATED FUNCTION
 
 func getCertificate(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData) (interface{}, error) {
+	var certId string
+	if h.Item != nil {
+		data := h.Item.(daddy.CertificateListResponse)
+		certId = data.CertificateID
+	} else {
+		certId = d.EqualsQualString("certificate_id")
+	}
 
 	// Create Client
 	client, err := getClient(ctx, d)
@@ -221,14 +239,12 @@ func getCertificate(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateD
 		return nil, err
 	}
 
-	certId := d.EqualsQualString("certificate_id")
-
 	// Empty check
 	if certId == "" {
 		return nil, nil
 	}
 
-	result, _ := client.Certificates.Get(certId)
+	result, err := client.Certificates.Get(certId)
 	if err != nil {
 		plugin.Logger(ctx).Error("godaddy_certificate.getCertificate", "api_error", err.Error())
 		return nil, err

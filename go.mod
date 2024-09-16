@@ -3,7 +3,7 @@ module github.com/turbot/steampipe-plugin-godaddy
 go 1.21
 
 require (
-	github.com/turbot/go-daddy v0.0.5
+	github.com/turbot/go-daddy v0.0.6
 	github.com/turbot/steampipe-plugin-sdk/v5 v5.8.0
 )
 
