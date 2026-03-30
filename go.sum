@@ -1054,8 +1054,8 @@ github.com/stretchr/testify v1.9.0 h1:HtqpIVDClZ4nwg75+f6Lvsy/wHu+3BoSGCbBAcpTsT
 github.com/stretchr/testify v1.9.0/go.mod h1:r2ic/lqez/lEtzL7wO/rwa5dbSLXVDPFyf8C91i36aY=
 github.com/tkrajina/go-reflector v0.5.6 h1:hKQ0gyocG7vgMD2M3dRlYN6WBBOmdoOzJ6njQSepKdE=
 github.com/tkrajina/go-reflector v0.5.6/go.mod h1:ECbqLgccecY5kPmPmXg1MrHW585yMcDkVl6IvJe64T4=
-github.com/turbot/go-daddy v0.0.3 h1:QXKPDVdu7pFcWIABfzyUrWZCZVhRmbQFa7OuX1vmLQM=
-github.com/turbot/go-daddy v0.0.3/go.mod h1:0WTg+6LZR7vXPbagaxAUeaAdGLW/v6eFcCh49IORmIU=
+github.com/turbot/go-daddy v0.0.6 h1:qxMB1QkrSMhYQocKhnnZmLjdQxJU1DntWulBnRnjW/c=
+github.com/turbot/go-daddy v0.0.6/go.mod h1:0WTg+6LZR7vXPbagaxAUeaAdGLW/v6eFcCh49IORmIU=
 github.com/turbot/go-kit v1.1.0 h1:2gW+MFDJD+mN41GcvhAajTrwR8HgN9KKJ8HnYwPGTV0=
 github.com/turbot/go-kit v1.1.0/go.mod h1:1xmRuQ0cn/10QUMNLNOAFIqN8P6Rz5s3VLT8mkN3nF8=
 github.com/turbot/steampipe-plugin-sdk/v5 v5.13.1 h1:XiZ3Sh25JhSJXOaw/j8N3ykSTFuxUNO7kKmnnJNr0Fk=
