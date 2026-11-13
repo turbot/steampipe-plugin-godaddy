@@ -5,9 +5,9 @@ import (
 	"fmt"
 
 	"github.com/turbot/go-daddy/daddy"
-	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
+	"github.com/turbot/steampipe-plugin-sdk/v6/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin/transform"
 )
 
 //// TABLE DEFINITION
@@ -152,7 +152,7 @@ func listDNSRecords(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateD
 
 	// To avoid errors, both the input parameters "name" and "DNS type" must be provided simultaneously in the where clause. Passing only DNS name will result in an error being thrown by the API.
 	if name != "" && dnsType == "" {
-		return nil, fmt.Errorf("Name and DNS type must be pass in where clause alltogether if we are passing DNS record name")
+		return nil, fmt.Errorf("name and DNS type must be pass in where clause alltogether if we are passing DNS record name")
 	}
 
 	result, err := client.Domains.GetRecords(domainName, dnsType, name, 0, maxLimit)

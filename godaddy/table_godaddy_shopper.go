@@ -3,9 +3,9 @@ package godaddy
 import (
 	"context"
 
-	"github.com/turbot/steampipe-plugin-sdk/v5/grpc/proto"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin/transform"
+	"github.com/turbot/steampipe-plugin-sdk/v6/grpc/proto"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin/transform"
 )
 
 //// TABLE DEFINITION
@@ -107,13 +107,13 @@ func getShopper(ctx context.Context, d *plugin.QueryData, h *plugin.HydrateData)
 
 	if result != nil {
 		d.StreamListItem(ctx, &ShopperInfo{
-			CustomerID: result.ShopperID.CustomerID,
+			CustomerID: result.CustomerID,
 			ShopperID:  result.ShopperID.ShopperID,
-			Email:      result.ShopperUpdate.Email,
-			ExternalID: result.ShopperUpdate.ExternalID,
-			MarketID:   result.ShopperUpdate.MarketID,
-			NameFirst:  result.ShopperUpdate.NameFirst,
-			NameLast:   result.ShopperUpdate.NameLast,
+			Email:      result.Email,
+			ExternalID: result.ExternalID,
+			MarketID:   result.MarketID,
+			NameFirst:  result.NameFirst,
+			NameLast:   result.NameLast,
 		})
 	}
 

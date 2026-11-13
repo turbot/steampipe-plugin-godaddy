@@ -6,7 +6,7 @@ import (
 	"os"
 
 	"github.com/turbot/go-daddy/daddy"
-	"github.com/turbot/steampipe-plugin-sdk/v5/plugin"
+	"github.com/turbot/steampipe-plugin-sdk/v6/plugin"
 )
 
 type godaddyConfig struct {
@@ -20,11 +20,11 @@ func ConfigInstance() interface{} {
 }
 
 func GetConfig(connection *plugin.Connection) godaddyConfig {
-	if connection == nil || connection.Config == nil {
+	if connection == nil || connection.GetConfig() == nil {
 		return godaddyConfig{}
 	}
 
-	config, _ := connection.Config.(godaddyConfig)
+	config, _ := connection.GetConfig().(godaddyConfig)
 
 	return config
 }
@@ -47,7 +47,7 @@ func getClient(ctx context.Context, d *plugin.QueryData) (*daddy.Client, error) 
 	}
 
 	if apiKey == "" || secretKey == "" {
-		return nil, errors.New("'api_key' and 'api_secret' must be set in the connection configuration. Edit your connection configuration file and then restart Steampipe.")
+		return nil, errors.New("'api_key' and 'api_secret' must be set in the connection configuration. Edit your connection configuration file and then restart Steampipe")
 	}
 
 	// Based on the environment we need to pass the endpoint URL
@@ -57,6 +57,6 @@ func getClient(ctx context.Context, d *plugin.QueryData) (*daddy.Client, error) 
 	case "PROD", "": // Default to production if no environment type is set.
 		return daddy.NewClient(apiKey, secretKey, false)
 	default:
-		return nil, errors.New("'environment' must be set in the connection configuration to 'DEV' or 'PROD'. Edit your connection configuration file and then restart Steampipe.")
+		return nil, errors.New("'environment' must be set in the connection configuration to 'DEV' or 'PROD'. Edit your connection configuration file and then restart Steampipe")
 	}
 }
